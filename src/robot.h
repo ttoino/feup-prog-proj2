@@ -3,11 +3,11 @@
 
 class Robot
 {
-Public:
+public:
 	Robot(line, collune);
 	setAlive(&alive);
 	moveRobot(line, collune);
-Private:
+private:
 	bool alive;
 	size_t line;
 	size_t collune;

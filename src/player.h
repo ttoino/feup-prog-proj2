@@ -3,11 +3,11 @@
 
 class Player
 {
-Public:
+public:
 	Player(line, collune);
 	setAlive(&alive);
 	movePlayer(line, collune);
-Private:
+private:
 	bool alive;
 	size_t line;
 	size_t collune;
