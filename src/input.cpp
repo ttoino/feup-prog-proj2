@@ -1,4 +1,6 @@
 #include "input.h"
+#include <string>
+#include<iostream>
 
 /**
  * Normalizes input.

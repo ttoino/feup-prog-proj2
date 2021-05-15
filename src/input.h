@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 #include "player.h"
+#include <string>
 
 class Input
 {
@@ -9,6 +10,7 @@ public:
 
 private:
 	void normalizeInput(string& input);
+	string input;
 	
 };
 #endif
