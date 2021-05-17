@@ -1,6 +1,6 @@
 #include "input.h"
 #include <string>
-#include<iostream>
+#include <iostream>
 
 /**
  * Normalizes input.
@@ -8,13 +8,13 @@
  *
  * @param input The input to normalize
  */
-void Input::normalizeInput(string& input)
+void Input::normalizeInput(std::string &input)
 {
     char last = 0;
     size_t i = 0;
     while (i < input.length())
     {
-        char& c = input.at(i);
+        char &c = input.at(i);
 
         // Replace tabs with spaces
         if (c == '\t')
@@ -43,12 +43,12 @@ void Input::normalizeInput(string& input)
  * @param input Where to store the input
  * @returns false if the eof bit is set, true otherwise
  */
-bool Input::getInput(string& input)
+bool Input::getInput(std::string &input)
 {
-    getline(cin, input);
+    std::getline(std::cin, input);
     normalizeInput(input);
 
-    if (cin.eof())
+    if (std::cin.eof())
         return false;
 
     return true;
