@@ -1,19 +1,25 @@
+#include <cstddef>
+
 #include "robot.h"
 
-using namespace std;
+Robot::Robot(size_t column, size_t line)
+    : column(column), line(line), alive(true)
+{
+}
 
-Robot::Robot(line, collune)
+void Robot::setAlive(bool alive)
 {
-	this->line = line;
-	this->collune = collune;
-	alive = true;
+    this->alive = alive;
 }
-Robot::setAlive(&alive)
+
+void Robot::moveRobot(size_t line, size_t column)
 {
-	this->alive = alive
+    this->line = line;
+    this->column = column;
 }
-Robot::moveRobot(line, collune)
-{
-	this->line = line;
-	this->collune = collune;
-}
+
+bool Robot::isAlive() const { return alive; }
+
+size_t Robot::getLine() const { return line; }
+
+size_t Robot::getColumn() const { return column; }

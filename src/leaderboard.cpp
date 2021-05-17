@@ -5,6 +5,8 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
+#include "util.h"
 using namespace std;
 
 
@@ -70,5 +72,5 @@ void Leaderboard::saveLeaderboard(const string& mazeNumber)
     ofstream file;
     file.open(fileName);
 
-    printLeaderboard(file, leaderboard);
+    printLeaderboard(file);
 }

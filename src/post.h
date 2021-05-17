@@ -4,14 +4,14 @@
 class Post
 {
 public:
-    Post(size_t x, size_t y);
+    Post(size_t column, size_t line);
 
     size_t getColumn() const;
     size_t getLine() const;
 
 private:
-    size_t x;
-    size_t y;
+    size_t column;
+    size_t line;
 };
 
 #endif

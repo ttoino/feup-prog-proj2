@@ -1,10 +1,8 @@
 #include "maze.h"
 
 Maze::Maze(std::string mazeNumber, size_t nLines, size_t nCols)
+    : mazeNumber(mazeNumber), nLines(nLines), nCols(nCols)
 {
-    this->mazeNumber = mazeNumber;
-    this->nLines = nLines;
-    this->nCols = nCols;
 }
 
 std::string Maze::getMazeNumber() const

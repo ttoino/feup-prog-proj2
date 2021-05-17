@@ -1,19 +1,25 @@
+#include <cstddef>
+
 #include "player.h"
 
-using namespace std;
+Player::Player(size_t column, size_t line)
+    : column(column), line(line), alive(true)
+{
+}
 
-Player::Player(line, collune)
+void Player::setAlive(bool alive)
 {
-	this->line = line;
-	this->collune = collune;
-	alive = true;
+    this->alive = alive;
 }
-Player::setAlive(&alive)
+
+void Player::setPosition(size_t column, size_t line)
 {
-	this->alive=alive
+    this->column = column;
+    this->line = line;
 }
-Player::movePlayer(line, collune)
-{
-	this->line = line;
-	this->collune = collune;
-}
+
+bool Player::isAlive() const { return alive; }
+
+size_t Player::getLine() const { return line; }
+
+size_t Player::getColumn() const { return column; }

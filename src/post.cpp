@@ -2,18 +2,17 @@
 
 #include "post.h"
 
-Post::Post(size_t x, size_t y)
+Post::Post(size_t column, size_t line)
+    : column(column), line(line)
 {
-    this->x = x;
-    this->y = y;
 }
 
 size_t Post::getColumn() const
 {
-    return x;
+    return column;
 }
 
 size_t Post::getLine() const
 {
-    return y;
+    return line;
 }

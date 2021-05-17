@@ -17,6 +17,7 @@ public:
     void saveLeaderboard(const string& mazeNumber);
 
 private:
-   vector<LeaderboardEntry> leaderboard
-   bool compareLeaderboardPoints(LeaderboardEntry person1, LeaderboardEntry person2);
+    vector<LeaderboardEntry> leaderboard;
+    bool compareLeaderboardPoints(LeaderboardEntry person1, LeaderboardEntry person2);
 };
+#endif
