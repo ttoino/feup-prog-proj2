@@ -12,7 +12,7 @@ void Robot::setAlive(bool alive)
     this->alive = alive;
 }
 
-void Robot::moveRobot(size_t line, size_t column)
+void Robot::moveRobot(size_t column, size_t line)
 {
     this->line = line;
     this->column = column;

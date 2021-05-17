@@ -28,12 +28,13 @@ private:
     void moveRobots();
 
     bool robotRobotCollision(const Robot &r1, const Robot &r2);
+    bool playerRobotCollision(const Robot &robot);
 
-    bool electrifiedPostAt(size_t column, size_t line) const;
-    bool nonElectrifiedPostAt(size_t column, size_t line) const;
-    bool exitAt(size_t column, size_t line) const;
-    bool deadRobotAt(size_t column, size_t line) const;
-    bool aliveRobotAt(size_t column, size_t line) const;
+    int electrifiedPostAt(size_t column, size_t line) const;
+    int nonElectrifiedPostAt(size_t column, size_t line) const;
+    int exitAt(size_t column, size_t line) const;
+    int deadRobotAt(size_t column, size_t line) const;
+    int aliveRobotAt(size_t column, size_t line) const;
 };
 
 #endif

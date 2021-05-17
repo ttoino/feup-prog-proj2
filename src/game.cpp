@@ -150,6 +150,14 @@ bool Game::movePlayer(int dx, int dy)
     }
 
     // TODO
+    if (nonElectrifiedPostAt(newCol, newLine) >= 0 || deadRobotAt(newCol, newLine) >= 0)
+        return false;
+
+    if (electrifiedPostAt(newCol, newLine) >= 0)
+    {
+        player->setAlive(false);
+        return true;
+    }
 
     player->setPosition(newCol, newLine);
     return true;
@@ -158,11 +166,8 @@ bool Game::movePlayer(int dx, int dy)
 void Game::tick()
 {
     // TODO
-    // if (playerPostCollision() || playerRobotCollision())
-    // {
-    //     player->setAlive(false);
-    //     return;
-    // }
+    if (!player->isAlive())
+        return;
 
     moveRobots();
 }
@@ -204,10 +209,29 @@ void Game::moveRobots()
         size_t newColumn = robot.getColumn() + sign(player->getColumn() - robot.getColumn());
         size_t newLine = robot.getLine() + sign(player->getLine() - robot.getLine());
 
-        robot.moveRobot(newColumn, newLine);
-
         // TODO
         // robot.setAlive();
+
+        int i = electrifiedPostAt(newColumn, newLine);
+        if (i >= 0)
+        {
+            robot.setAlive(false);
+
+            auto electrified = maze->getElectrified();
+            Post p = electrified.at(i);
+            electrified.erase(electrified.begin() + i);
+            maze->getNonElectrified().push_back(p);
+
+            continue;
+        }
+
+        i = nonElectrifiedPostAt(newColumn, newLine);
+        if (i >= 0)
+        {
+            robot.setAlive(false);
+        }
+
+        robot.moveRobot(newColumn, newLine);
 
         for (Robot &other : robots)
         {
@@ -219,6 +243,11 @@ void Game::moveRobots()
                 robot.setAlive(false);
                 other.setAlive(false);
             }
+
+            if (playerRobotCollision(robot))
+            {
+                player->setAlive(false);
+            }
         }
     }
 }
@@ -229,63 +258,80 @@ void Game::moveRobots()
 //     return false;
 // }
 
-// bool Game::playerRobotCollision()
-// {
-//     for (const Robot &robot : robots)
-//     {
-//         if (player->getLine() == robot.getLine() && player->getColumn() == robot.getColumn())
-//             return true;
-//     }
-// }
-
-// bool
+bool Game::playerRobotCollision(const Robot &robot)
+{
+    return robot.getColumn() == player->getColumn() && robot.getLine() == player->getLine();
+}
 
 bool Game::robotRobotCollision(const Robot &r1, const Robot &r2)
 {
     return r1.getLine() == r2.getLine() && r1.getColumn() == r2.getColumn();
 }
 
-bool Game::electrifiedPostAt(size_t column, size_t line) const
+int Game::electrifiedPostAt(size_t column, size_t line) const
 {
-    for (const Post &post : maze->getElectrified())
-        if (post.getColumn() == column && post.getLine() == line)
-            return true;
+    auto electrified = maze->getElectrified();
+    for (size_t i = 0; i < electrified.size(); i++)
+    {
+        auto post = electrified.at(i);
 
-    return false;
+        if (post.getColumn() == column && post.getLine() == line)
+            return i;
+    }
+
+    return -1;
 }
 
-bool Game::nonElectrifiedPostAt(size_t column, size_t line) const
+int Game::nonElectrifiedPostAt(size_t column, size_t line) const
 {
-    for (const Post &post : maze->getNonElectrified())
-        if (post.getColumn() == column && post.getLine() == line)
-            return true;
+    auto nonElectrified = maze->getNonElectrified();
+    for (size_t i = 0; i < nonElectrified.size(); i++)
+    {
+        auto post = nonElectrified.at(i);
 
-    return false;
+        if (post.getColumn() == column && post.getLine() == line)
+            return i;
+    }
+
+    return -1;
 }
 
-bool Game::exitAt(size_t column, size_t line) const
+int Game::exitAt(size_t column, size_t line) const
 {
-    for (const Post &exit : maze->getExits())
+    auto exits = maze->getExits();
+    for (size_t i = 0; i < exits.size(); i++)
+    {
+        auto exit = exits.at(i);
+
         if (exit.getColumn() == column && exit.getLine() == line)
-            return true;
+            return i;
+    }
 
-    return false;
+    return -1;
 }
 
-bool Game::deadRobotAt(size_t column, size_t line) const
+int Game::deadRobotAt(size_t column, size_t line) const
 {
-    for (const Robot &robot : robots)
+    for (size_t i = 0; i < robots.size(); i++)
+    {
+        auto robot = robots.at(i);
+
         if (!robot.isAlive() && robot.getColumn() == column && robot.getLine() == line)
-            return true;
+            return i;
+    }
 
-    return false;
+    return -1;
 }
 
-bool Game::aliveRobotAt(size_t column, size_t line) const
+int Game::aliveRobotAt(size_t column, size_t line) const
 {
-    for (const Robot &robot : robots)
-        if (robot.isAlive() && robot.getColumn() == column && robot.getLine() == line)
-            return true;
+    for (size_t i = 0; i < robots.size(); i++)
+    {
+        auto robot = robots.at(i);
 
-    return false;
+        if (robot.isAlive() && robot.getColumn() == column && robot.getLine() == line)
+            return i;
+    }
+
+    return -1;
 }
