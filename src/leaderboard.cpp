@@ -45,7 +45,7 @@ void Leaderboard::readLeaderboard(const string& mazeNumber)
     file.close();
 }
 
-bool Leaderboard::compareLeaderboardPoints(LeaderboardEntry person1, LeaderboardEntry person2)
+bool compareLeaderboardPoints(LeaderboardEntry person1, LeaderboardEntry person2)
 {
     return (person1.points < person2.points);
 }
