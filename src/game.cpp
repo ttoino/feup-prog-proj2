@@ -129,17 +129,14 @@ bool Game::loadMaze(const std::string &mazeNumber)
 
 bool Game::isGameOver() const
 {
-    bool allDead = true;
-    for (const Robot &robot : robots)
+    
+    bool foundExit = false;
+    for (auto exit : maze->getExits())
     {
-        if (robot.isAlive())
-        {
-            allDead = false;
-            break;
-        }
+        if (exit.getColumn() == player->getColumn() && exit.getLine() == player->getLine()) foundExit = true;
     }
 
-    return allDead || !player->isAlive();
+    return foundExit || !player->isAlive();
 }
 
 bool Game::movePlayer(int dx, int dy)
