@@ -24,6 +24,10 @@ Game::~Game()
         delete player;
 }
 
+std::string Game::getMazeNumber() const { return mazeNumber; }
+
+std::chrono::steady_clock::time_point Game::getStartTime() const { return startTime; }
+
 bool Game::loadMaze(const std::string &mazeNumber)
 {
     // Open file
@@ -66,9 +70,7 @@ bool Game::loadMaze(const std::string &mazeNumber)
         case 'H':
             if (player)
             {
-                delete player;
-                delete maze;
-                robots = {};
+                reset();
 
                 // Found two players
                 // validInput = false;
@@ -90,10 +92,7 @@ bool Game::loadMaze(const std::string &mazeNumber)
             maze->getExits().push_back(Post(i % nCols, i / nCols));
             break;
         default:
-            if (player)
-                delete player;
-            delete maze;
-            robots = {};
+            reset();
 
             // Found an invalid character
             // validInput = false;
@@ -106,8 +105,7 @@ bool Game::loadMaze(const std::string &mazeNumber)
 
     if (!player)
     {
-        delete maze;
-        robots = {};
+        reset();
 
         // No player was found
         // validInput = false;
@@ -123,6 +121,8 @@ bool Game::loadMaze(const std::string &mazeNumber)
     //     return false;
     // }
 
+    this->mazeNumber = mazeNumber;
+    startTime = std::chrono::steady_clock::now();
     file.close();
     return true;
 }
@@ -193,6 +193,16 @@ void Game::displayMaze()
         if (i % maze->getNCols() == maze->getNCols() - 1)
             std::cout << '\n';
     }
+}
+
+void Game::reset()
+{
+    if (player)
+        delete player;
+    if (maze)
+        delete maze;
+    mazeNumber = "";
+    robots = {};
 }
 
 void Game::moveRobots()

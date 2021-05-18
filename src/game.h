@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <vector>
+#include <chrono>
 
 #include "maze.h"
 #include "player.h"
@@ -14,6 +15,9 @@ public:
     Game();
     ~Game();
 
+    std::string getMazeNumber() const;
+    std::chrono::steady_clock::time_point getStartTime() const;
+
     bool loadMaze(const std::string &mazeNumber);
 
     bool isGameOver() const;
@@ -23,9 +27,14 @@ public:
     void displayMaze();
 
 private:
+    std::string mazeNumber;
+    std::chrono::steady_clock::time_point startTime;
+
     Maze *maze;
     Player *player;
     std::vector<Robot> robots;
+
+    void reset();
 
     void moveRobots();
 
