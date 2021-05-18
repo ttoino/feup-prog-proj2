@@ -6,6 +6,7 @@
 #include "maze.h"
 #include "player.h"
 #include "robot.h"
+#include "leaderboard.h"
 
 class Game
 {
@@ -16,6 +17,7 @@ public:
     bool loadMaze(const std::string &mazeNumber);
 
     bool isGameOver() const;
+    bool isPlayerAlive() const;
     bool movePlayer(int dx, int dy);
     void tick();
     void displayMaze();

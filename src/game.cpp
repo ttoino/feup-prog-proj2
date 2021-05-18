@@ -129,14 +129,12 @@ bool Game::loadMaze(const std::string &mazeNumber)
 
 bool Game::isGameOver() const
 {
-    
-    bool foundExit = false;
-    for (auto exit : maze->getExits())
-    {
-        if (exit.getColumn() == player->getColumn() && exit.getLine() == player->getLine()) foundExit = true;
-    }
+    return exitAt(player->getColumn(), player->getLine()) || !player->isAlive();
+}
 
-    return foundExit || !player->isAlive();
+bool Game::isPlayerAlive() const
+{
+    return player->isAlive();
 }
 
 bool Game::movePlayer(int dx, int dy)
@@ -149,7 +147,6 @@ bool Game::movePlayer(int dx, int dy)
         return false;
     }
 
-    // TODO
     if (nonElectrifiedPostAt(newCol, newLine) >= 0 || deadRobotAt(newCol, newLine) >= 0)
         return false;
 
@@ -165,7 +162,6 @@ bool Game::movePlayer(int dx, int dy)
 
 void Game::tick()
 {
-    // TODO
     if (!player->isAlive())
         return;
 
@@ -209,9 +205,6 @@ void Game::moveRobots()
         size_t newColumn = robot.getColumn() + sign(player->getColumn() - robot.getColumn());
         size_t newLine = robot.getLine() + sign(player->getLine() - robot.getLine());
 
-        // TODO
-        // robot.setAlive();
-
         int i = electrifiedPostAt(newColumn, newLine);
         if (i >= 0)
         {
@@ -251,12 +244,6 @@ void Game::moveRobots()
         }
     }
 }
-
-// bool Game::playerPostCollision()
-// {
-//     // TODO
-//     return false;
-// }
 
 bool Game::playerRobotCollision(const Robot &robot)
 {
