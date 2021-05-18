@@ -7,6 +7,7 @@
 #include <chrono>
 #include "leaderboard.h"
 #include "game.h"
+#include "util.h"
 
 using namespace std;
 const string GENERIC_ERROR = "Invalid input!"s;
@@ -354,10 +355,9 @@ bool finished(GameState& gameState, bool& validInput, string& errorMessage, Game
         cout << "Please insert your name: ";
 
         LeaderboardEntry person;
-        Leaderboard leaderboard;
 
         // Save points as soon as possible
-        person.points = chrono::duration_cast<chrono::seconds>(chrono::steady_clock::now() - game.getStartTime).count();
+        person.points = chrono::duration_cast<chrono::seconds>(chrono::steady_clock::now() - game.getStartTime()).count();
 
         if (!getInput(person.name))
             return false;
@@ -379,8 +379,23 @@ bool finished(GameState& gameState, bool& validInput, string& errorMessage, Game
         validInput = true;
         // Name is valid, pad it out to a length of 15
         person.name += string(15 - nameLength, ' ');
+        string mazeNumber = game.getMazeNumber();
+        Leaderboard leaderboard(mazeNumber);
 
+
+        /*if (!searchSameName(leaderboard, person, validInput, errorMessage))
+            return false;*/
+
+        if (!validInput)
+            return true;
         
+        leaderboard.sort();
+
+        cout << '\n';
+        leaderboard.print(cout);
+        cout << '\n';
+
+        leaderboard.save();
     }
     else
         cout << "You lose :(\n";
@@ -394,11 +409,12 @@ bool finished(GameState& gameState, bool& validInput, string& errorMessage, Game
 
 bool winner(GameState& gameState, bool& validInput, string& errorMessage, Game& game)
 {
-    Leaderboard leaderboard;
     string mazeNumber;
     getmaze(validInput, errorMessage, mazeNumber);
-    leaderboard.readLeaderboard(mazeNumber);
-    leaderboard.saveLeaderboard(mazeNumber);
+
+    Leaderboard leaderboard(mazeNumber);
+
+    leaderboard.print(cout);
     return true;
 
 }
