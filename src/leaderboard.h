@@ -1,31 +1,31 @@
-#ifndef LEADERBOARD_H
-#define LEADERBOARD_H
-#include "leaderboard.h"
-#include <iostream>
 #include <vector>
 #include <string>
-#include <iomanip>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include "util.h"
-using namespace std;
+#include <iostream>
+
+#ifndef LEADERBOARD_H
+#define LEADERBOARD_H
 
 struct LeaderboardEntry
 {
     /** The player's name */
-    string name;
+    std::string name;
     /** The player's points */
     unsigned int points;
 };
 
-class Leaderboard {
+class Leaderboard
+{
 public:
-    void readLeaderboard(const string& mazeNumber);
-    void sortLeaderboard();
-    void printLeaderboard(ostream& out);
-    void saveLeaderboard(const string& mazeNumber);
+    Leaderboard(const std::string &mazeNumber);
+
+    void sort();
+    void print(std::ostream &out);
+    void save();
+
 private:
-    vector<LeaderboardEntry> leaderboard;
+    std::vector<LeaderboardEntry> data;
+    std::string mazeNumber;
+
+    void load();
 };
 #endif

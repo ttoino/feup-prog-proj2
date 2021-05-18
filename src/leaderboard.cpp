@@ -1,18 +1,25 @@
-#include "leaderboard.h"
-#include <iostream>
 #include <vector>
 #include <string>
-#include <iomanip>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <iomanip>
+
+#include "leaderboard.h"
 #include "util.h"
-using namespace std;
 
+using namespace std::literals;
 
-void Leaderboard::readLeaderboard(const string& mazeNumber)
+Leaderboard::Leaderboard(const std::string &mazeNumber)
+    : mazeNumber(mazeNumber)
 {
-    ifstream file("MAZE_"s + mazeNumber + "_WINNERS.txt"s);
+    load();
+}
+
+void Leaderboard::load()
+{
+    std::ifstream file("MAZE_"s + mazeNumber + "_WINNERS.txt"s);
 
     // File doesn't exist
     if (!file.is_open())
@@ -22,10 +29,10 @@ void Leaderboard::readLeaderboard(const string& mazeNumber)
     file.ignore(100, '\n');
     file.ignore(100, '\n');
 
-    string line;
-    while (getline(file, line))
+    std::string line;
+    while (std::getline(file, line))
     {
-        stringstream linestream(line);
+        std::stringstream linestream(line);
         LeaderboardEntry person;
         size_t nameLength = 0;
         char c;
@@ -39,7 +46,7 @@ void Leaderboard::readLeaderboard(const string& mazeNumber)
 
         // Ignore dash
         linestream >> c >> person.points;
-        leaderboard.push_back(person);
+        data.push_back(person);
     }
 
     file.close();
@@ -50,27 +57,28 @@ bool compareLeaderboardPoints(LeaderboardEntry person1, LeaderboardEntry person2
     return (person1.points < person2.points);
 }
 
-void Leaderboard::sortLeaderboard()
+void Leaderboard::sort()
 {
-    sort(leaderboard.begin(), leaderboard.end(), compareLeaderboardPoints);
+    std::sort(data.begin(), data.end(), compareLeaderboardPoints);
 }
 
-void Leaderboard::printLeaderboard(ostream& out)
+void Leaderboard::print(std::ostream &out)
 {
     out << "Player          - Time\n----------------------\n";
 
-    for (auto person : leaderboard)
+    for (auto person : data)
     {
-        out << person.name << " - " << setw(4) << right << person.points << '\n';
+        out << person.name << " - " << std::setw(4) << std::right << person.points << '\n';
     }
 }
 
-void Leaderboard::saveLeaderboard(const string& mazeNumber)
+void Leaderboard::save()
 {
-    string fileName = "MAZE_"s + mazeNumber + "_WINNERS.txt"s;
+    std::string fileName = "MAZE_"s + mazeNumber + "_WINNERS.txt"s;
 
-    ofstream file;
-    file.open(fileName);
+    std::ofstream file(fileName);
 
-    printLeaderboard(file);
+    print(file);
+
+    file.close();
 }
