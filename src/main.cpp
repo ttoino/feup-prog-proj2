@@ -415,6 +415,8 @@ bool winner(GameState& gameState, bool& validInput, string& errorMessage, Game& 
     Leaderboard leaderboard(mazeNumber);
 
     leaderboard.print(cout);
+    gameState = GameState::mainMenu;
+    
     return true;
 
 }

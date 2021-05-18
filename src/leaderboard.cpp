@@ -64,11 +64,19 @@ void Leaderboard::sort()
 
 void Leaderboard::print(std::ostream &out)
 {
-    out << "Player          - Time\n----------------------\n";
-
-    for (auto person : data)
+    if (data.empty())
     {
-        out << person.name << " - " << std::setw(4) << std::right << person.points << '\n';
+        out << "Empty list\n\n";
+    }
+    else 
+    {
+        out << "Player          - Time\n----------------------\n";
+
+
+        for (auto person : data)
+        {
+            out << person.name << " - " << std::setw(4) << std::right << person.points << '\n';
+        }
     }
 }
 
