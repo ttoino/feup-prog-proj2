@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 #include "error.h"
 
@@ -10,4 +11,7 @@ Result::Result(std::string errorMessage)
 
 Result::operator bool() const { return successful; }
 
-Result::operator std::string() const { return errorMessage; }
+std::ostream &operator<<(std::ostream &out, const Result &result)
+{
+    return out << result.errorMessage;
+}

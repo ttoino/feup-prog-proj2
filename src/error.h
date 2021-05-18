@@ -2,6 +2,7 @@
 #define ERROR_H
 
 #include <string>
+#include <iostream>
 
 using namespace std::literals;
 
@@ -30,7 +31,8 @@ struct Result
     const std::string errorMessage;
 
     operator bool() const;
-    operator std::string() const;
 };
+
+std::ostream &operator<<(std::ostream &out, const Result &result);
 
 #endif
