@@ -11,7 +11,6 @@ class Maze
 public:
     Maze(std::string mazeNumber, size_t nLines, size_t nCols);
 
-    std::string getMazeNumber() const;
     size_t getNLines() const;
     size_t getNCols() const;
     std::vector<Post> &getExits();
@@ -19,7 +18,6 @@ public:
     std::vector<Post> &getNonElectrified();
 
 private:
-    std::string mazeNumber;
     size_t nCols;
     size_t nLines;
     std::vector<Post> exits;
