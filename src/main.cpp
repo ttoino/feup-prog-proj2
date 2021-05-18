@@ -290,7 +290,6 @@ bool mazeMenu(GameState& gameState, bool& validInput, string& errorMessage, Game
 
     // Start the game
     gameState = GameState::inGame;
-    //maze.startTime = chrono::steady_clock::now();
     return true;
 }
 
@@ -358,7 +357,7 @@ bool finished(GameState& gameState, bool& validInput, string& errorMessage, Game
         Leaderboard leaderboard;
 
         // Save points as soon as possible
-        //person.points = chrono::duration_cast<chrono::seconds>(chrono::steady_clock::now() - maze.startTime).count();
+        person.points = chrono::duration_cast<chrono::seconds>(chrono::steady_clock::now() - game.getStartTime).count();
 
         if (!getInput(person.name))
             return false;
@@ -395,8 +394,11 @@ bool finished(GameState& gameState, bool& validInput, string& errorMessage, Game
 
 bool winner(GameState& gameState, bool& validInput, string& errorMessage, Game& game)
 {
+    Leaderboard leaderboard;
     string mazeNumber;
     getmaze(validInput, errorMessage, mazeNumber);
+    leaderboard.readLeaderboard(mazeNumber);
+    leaderboard.saveLeaderboard(mazeNumber);
     return true;
 
 }

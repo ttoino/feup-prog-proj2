@@ -1,0 +1,12 @@
+This game takes place in a maze made up of robots and electrical fences/posts.
+A electrified post is represented by an '*', a non-electrified post by an '+', the exit by 'O',
+a robot by an 'R' if alive, and an 'r' if dead, and you are represented by an 'H' if alive, and an 'h' if dead.
+When you touch a fence/post or a robot you die. The same rules apply to robots.
+The objective of the game is to survive until all robots die and get to the exits.
+You can move to any of the 8 cells adjacent to your position using the following keys:
+            Q W E
+            A S D
+            Z X C
+(Where 'S' keeps you in your current position)
+After you move all alive robots will move towards you without avoiding obstacles.
+You may leave the game at any time by typing Ctrl-Z on Windows or Ctrl-D on Linux.
