@@ -129,7 +129,7 @@ bool Game::loadMaze(const std::string &mazeNumber)
 
 bool Game::isGameOver() const
 {
-    return exitAt(player->getColumn(), player->getLine()) || !player->isAlive();
+    return exitAt(player->getColumn(), player->getLine()) >= 0 || !player->isAlive();
 }
 
 bool Game::isPlayerAlive() const
