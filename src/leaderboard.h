@@ -21,6 +21,8 @@ public:
     void sort();
     void print(std::ostream &out);
     void save();
+    LeaderboardEntry* searchSameName(const LeaderboardEntry& person);
+    void addName(LeaderboardEntry& person);
 
 private:
     std::vector<LeaderboardEntry> data;

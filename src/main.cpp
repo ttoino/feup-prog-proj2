@@ -388,7 +388,30 @@ bool finished(GameState& gameState, bool& validInput, string& errorMessage, Game
 
         if (!validInput)
             return true;
-        
+        LeaderboardEntry *otherPerson =leaderboard.searchSameName(person);
+        if (otherPerson)
+        {
+            cout << "That name already exits in the leaderboard! Do you wish to continue with it? (y/N) ";
+
+            string decision;
+
+            if (!getInput(decision))
+                return false;
+            if (decision == "y" || decision == "Y")
+            {
+                // Only save new score if it's better than the current one
+                if (person.points < otherPerson->points)
+                    otherPerson-> points = person.points;
+            }
+            else
+            {
+                validInput = false;
+                errorMessage = ANOTHER_NAME;
+            }
+        }
+        leaderboard.addName(person);
+
+
         leaderboard.sort();
 
         cout << '\n';

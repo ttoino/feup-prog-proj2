@@ -5,6 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iomanip>
+#inc
 
 #include "leaderboard.h"
 #include "util.h"
@@ -89,4 +90,22 @@ void Leaderboard::save()
     print(file);
 
     file.close();
+}
+
+LeaderboardEntry* Leaderboard::searchSameName(const LeaderboardEntry& person)
+{
+    for (auto& other : data)
+    {
+        if (other.name == person.name)
+        {
+            return &other;
+        }
+    }
+    return nullptr;
+}
+
+void Leaderboard::addName(LeaderboardEntry& person)
+{
+    data.push_back(person);
+
 }
