@@ -3,9 +3,7 @@
 #include "robot.h"
 
 Robot::Robot(size_t column, size_t line)
-    : column(column), line(line), alive(true)
-{
-}
+    : column(column), line(line), alive(true) {}
 
 void Robot::setAlive(bool alive)
 {

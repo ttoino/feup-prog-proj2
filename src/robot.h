@@ -18,4 +18,5 @@ private:
     size_t line;
     size_t column;
 };
+
 #endif

@@ -3,9 +3,7 @@
 #include "player.h"
 
 Player::Player(size_t column, size_t line)
-    : column(column), line(line), alive(true)
-{
-}
+    : column(column), line(line), alive(true) {}
 
 void Player::setAlive(bool alive)
 {
