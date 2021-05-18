@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include "util.h"
+#include "error.h"
 #include "maze.h"
 #include "player.h"
 #include "robot.h"
@@ -28,7 +29,7 @@ std::string Game::getMazeNumber() const { return mazeNumber; }
 
 std::chrono::steady_clock::time_point Game::getStartTime() const { return startTime; }
 
-bool Game::loadMaze(const std::string &mazeNumber)
+Result Game::loadMaze(const std::string &mazeNumber)
 {
     // Open file
     std::ifstream file("MAZE_"s + mazeNumber + ".txt"s);
@@ -38,7 +39,7 @@ bool Game::loadMaze(const std::string &mazeNumber)
     {
         // validInput = false;
         // errorMessage = MAZE_NOT_FOUND;
-        return false;
+        return {MAZE_NOT_FOUND};
     }
 
     // Get number of rows and columns from top of file
@@ -50,7 +51,7 @@ bool Game::loadMaze(const std::string &mazeNumber)
     {
         // validInput = false;
         // errorMessage = INVALID_MAZE_HEADER_SIZE;
-        return false;
+        return {INVALID_MAZE_HEADER_SIZE};
     }
 
     maze = new Maze(mazeNumber, nLines, nCols);
@@ -75,7 +76,7 @@ bool Game::loadMaze(const std::string &mazeNumber)
                 // Found two players
                 // validInput = false;
                 // errorMessage = MULTIPLE_PLAYERS;
-                return false;
+                return {MULTIPLE_PLAYERS};
             }
             player = new Player(i % nCols, i / nCols);
             break;
@@ -97,7 +98,7 @@ bool Game::loadMaze(const std::string &mazeNumber)
             // Found an invalid character
             // validInput = false;
             // errorMessage = INVALID_MAZE_CHARACTER;
-            return false;
+            return {INVALID_MAZE_CHARACTER};
         }
 
         i++;
@@ -110,7 +111,7 @@ bool Game::loadMaze(const std::string &mazeNumber)
         // No player was found
         // validInput = false;
         // errorMessage = NO_PLAYER;
-        return false;
+        return {NO_PLAYER};
     }
 
     // if (maze.nCols * maze.nLines != maze.fenceMap.size())
@@ -124,7 +125,7 @@ bool Game::loadMaze(const std::string &mazeNumber)
     this->mazeNumber = mazeNumber;
     startTime = std::chrono::steady_clock::now();
     file.close();
-    return true;
+    return {};
 }
 
 bool Game::isGameOver() const
@@ -137,27 +138,25 @@ bool Game::isPlayerAlive() const
     return player->isAlive();
 }
 
-bool Game::movePlayer(int dx, int dy)
+Result Game::movePlayer(int dx, int dy)
 {
     int newCol = player->getColumn() + dx;
     int newLine = player->getLine() + dy;
 
     if (newCol < 0 || newCol >= maze->getNCols() || newLine < 0 || newLine >= maze->getNLines())
-    {
-        return false;
-    }
+        return {OUT_OF_BOUNDS};
 
     if (nonElectrifiedPostAt(newCol, newLine) >= 0 || deadRobotAt(newCol, newLine) >= 0)
-        return false;
+        return {CELL_OCCUPIED};
 
     if (electrifiedPostAt(newCol, newLine) >= 0)
     {
         player->setAlive(false);
-        return true;
+        return {};
     }
 
     player->setPosition(newCol, newLine);
-    return true;
+    return {};
 }
 
 void Game::tick()

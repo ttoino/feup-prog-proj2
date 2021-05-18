@@ -4,6 +4,7 @@
 #include <vector>
 #include <chrono>
 
+#include "error.h"
 #include "maze.h"
 #include "player.h"
 #include "robot.h"
@@ -18,11 +19,11 @@ public:
     std::string getMazeNumber() const;
     std::chrono::steady_clock::time_point getStartTime() const;
 
-    bool loadMaze(const std::string &mazeNumber);
+    Result loadMaze(const std::string &mazeNumber);
 
     bool isGameOver() const;
     bool isPlayerAlive() const;
-    bool movePlayer(int dx, int dy);
+    Result movePlayer(int dx, int dy);
     void tick();
     void displayMaze();
 
