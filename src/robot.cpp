@@ -1,9 +1,17 @@
 #include <cstddef>
 
 #include "robot.h"
+int Robot::robotCounter = 0;
 
 Robot::Robot(size_t column, size_t line)
-    : column(column), line(line), alive(true) {}
+{
+    this->line = line;
+    this->column = column;
+    alive = true;
+    id = robotCounter;
+    robotCounter++;
+}
+
 
 void Robot::setAlive(bool alive)
 {
