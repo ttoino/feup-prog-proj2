@@ -31,6 +31,8 @@ std::chrono::steady_clock::time_point Game::getStartTime() const { return startT
 
 Result Game::loadMaze(const std::string &mazeNumber)
 {
+    reset();
+
     // Open file
     std::ifstream file("MAZE_"s + mazeNumber + ".txt"s);
 
@@ -62,12 +64,8 @@ Result Game::loadMaze(const std::string &mazeNumber)
             break;
         case 'H':
             if (player)
-            {
-                reset();
-
-                // Found two players
                 return {MULTIPLE_PLAYERS};
-            }
+
             player = new Player(i % nCols, i / nCols);
             break;
         case ' ':
@@ -83,8 +81,6 @@ Result Game::loadMaze(const std::string &mazeNumber)
             maze->getExits().push_back(Post(i % nCols, i / nCols));
             break;
         default:
-            reset();
-
             // Found an invalid character
             return {INVALID_MAZE_CHARACTER};
         }
@@ -93,27 +89,16 @@ Result Game::loadMaze(const std::string &mazeNumber)
     }
 
     if (!player)
-    {
-        reset();
-
         // No player was found
         return {NO_PLAYER};
-    }
 
     if (!maze->getExits().size())
-    {
-        reset();
-
         // No exits were found
         return {NO_EXITS};
-    }
 
     if (nCols * nLines != i)
-    {
-        reset();
         // Size in header does not match maze size
         return {INVALID_MAZE_SIZE};
-    }
 
     this->mazeNumber = mazeNumber;
     startTime = std::chrono::steady_clock::now();
