@@ -382,7 +382,7 @@ bool finished(GameState &gameState, Game &game, Result &valid)
                 return true;
             }
         }
-        leaderboard.addName(person);
+        else leaderboard.addName(person);
 
         leaderboard.sort();
 
@@ -414,6 +414,7 @@ bool winners(GameState &gameState, Result &valid)
     Leaderboard leaderboard(mazeNumber);
 
     leaderboard.print(cout);
+    cout << endl;
     gameState = GameState::mainMenu;
 
     return true;
