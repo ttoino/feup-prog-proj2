@@ -36,11 +36,7 @@ Result Game::loadMaze(const std::string &mazeNumber)
 
     // File doesn't exist
     if (!file.is_open())
-    {
-        // validInput = false;
-        // errorMessage = MAZE_NOT_FOUND;
         return {MAZE_NOT_FOUND};
-    }
 
     // Get number of rows and columns from top of file
     char x;
@@ -48,13 +44,9 @@ Result Game::loadMaze(const std::string &mazeNumber)
     file >> nLines >> x >> nCols;
 
     if (x != 'x' || file.fail())
-    {
-        // validInput = false;
-        // errorMessage = INVALID_MAZE_HEADER_SIZE;
         return {INVALID_MAZE_HEADER_SIZE};
-    }
 
-    maze = new Maze(mazeNumber, nLines, nCols);
+    maze = new Maze(nLines, nCols);
 
     char c;
     size_t i = 0;
@@ -74,8 +66,6 @@ Result Game::loadMaze(const std::string &mazeNumber)
                 reset();
 
                 // Found two players
-                // validInput = false;
-                // errorMessage = MULTIPLE_PLAYERS;
                 return {MULTIPLE_PLAYERS};
             }
             player = new Player(i % nCols, i / nCols);
@@ -96,8 +86,6 @@ Result Game::loadMaze(const std::string &mazeNumber)
             reset();
 
             // Found an invalid character
-            // validInput = false;
-            // errorMessage = INVALID_MAZE_CHARACTER;
             return {INVALID_MAZE_CHARACTER};
         }
 
@@ -109,18 +97,23 @@ Result Game::loadMaze(const std::string &mazeNumber)
         reset();
 
         // No player was found
-        // validInput = false;
-        // errorMessage = NO_PLAYER;
         return {NO_PLAYER};
     }
 
-    // if (maze.nCols * maze.nLines != maze.fenceMap.size())
-    // {
-    //     // Size in header does not match maze size
-    //     validInput = false;
-    //     errorMessage = INVALID_MAZE_SIZE;
-    //     return false;
-    // }
+    if (!maze->getExits().size())
+    {
+        reset();
+
+        // No exits were found
+        return {NO_EXITS};
+    }
+
+    if (nCols * nLines != i)
+    {
+        reset();
+        // Size in header does not match maze size
+        return {INVALID_MAZE_SIZE};
+    }
 
     this->mazeNumber = mazeNumber;
     startTime = std::chrono::steady_clock::now();
@@ -197,9 +190,15 @@ void Game::displayMaze()
 void Game::reset()
 {
     if (player)
+    {
         delete player;
+        player = nullptr;
+    }
     if (maze)
+    {
         delete maze;
+        maze = nullptr;
+    }
     mazeNumber = "";
     robots = {};
 }

@@ -25,7 +25,7 @@ public:
     * @param mazeNumber Which maze to read (in the range "01" to "99")
     */
     Leaderboard(const std::string &mazeNumber);
-    
+
     /** Sorts a leaderboard by points.*/
     void sort();
 
@@ -44,16 +44,15 @@ public:
      * @param person The person with the name to search for
      * @returns the leaderboard entry of the person with the same base on the leaderboard
      */
-    LeaderboardEntry* searchSameName(const LeaderboardEntry& person);
+    LeaderboardEntry *searchSameName(const LeaderboardEntry &person);
 
     /*
     * Adds another entry to the leaderboard
     * @param person The entry that we want to add
     */
-    void addName(LeaderboardEntry& person);
+    void addName(LeaderboardEntry &person);
 
 private:
-
     /**A vector with all the entries inside it*/
     std::vector<LeaderboardEntry> data;
 

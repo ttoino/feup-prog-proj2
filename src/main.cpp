@@ -10,21 +10,6 @@
 #include "util.h"
 
 using namespace std;
-const string GENERIC_ERROR = "Invalid input!"s;
-
-const string CELL_OCCUPIED = "That cell is occupied!"s;
-const string OUT_OF_BOUNDS = "Cannot move out of bounds!"s;
-
-const string INVALID_MAZE_NUMBER = "Must be a number from 1 to 99!"s;
-const string MAZE_NOT_FOUND = "That maze could not be found!"s;
-const string INVALID_MAZE_HEADER_SIZE = "Invalid maze size in header!"s;
-const string INVALID_MAZE_SIZE = "Maze does not match size in header!"s;
-const string NO_PLAYER = "Maze has no players!"s;
-const string MULTIPLE_PLAYERS = "Maze has multiple players!"s;
-const string INVALID_MAZE_CHARACTER = "Invalid character found in maze!"s;
-
-const string INVALID_NAME = "Must have 15 characters or fewer!"s;
-const string ANOTHER_NAME = "";
 
 /**
  * This enum represents state the game is in.
@@ -37,10 +22,10 @@ enum class GameState
     mazeMenu,
     /** User is playing game */
     inGame,
-    /**User is seing leaderboard*/
-    winners,
     /** Game has finished and the user is entering their name */
-    finished
+    finished,
+    /** User is seeing the leaderboard */
+    winners
 };
 
 /**
@@ -49,13 +34,13 @@ enum class GameState
  *
  * @param input The input to normalize
  */
-void normalizeInput(string& input)
+void normalizeInput(string &input)
 {
     char last = 0;
     size_t i = 0;
     while (i < input.length())
     {
-        char& c = input.at(i);
+        char &c = input.at(i);
 
         // Replace tabs with spaces
         if (c == '\t')
@@ -84,7 +69,7 @@ void normalizeInput(string& input)
  * @param input Where to store the input
  * @returns false if the eof bit is set, true otherwise
  */
-bool getInput(string& input)
+bool getInput(string &input)
 {
     getline(cin, input);
     normalizeInput(input);
@@ -95,90 +80,41 @@ bool getInput(string& input)
     return true;
 }
 
-bool showRules()
+Result showRules()
 {
-    ifstream file("RULES.TXT");
+    ifstream file("RULES.txt");
 
     // File doesn't exist
     if (!file.is_open())
-    {
-        //validInput = false;
-        //errorMessage = MAZE_NOT_FOUND;
-        return false;
-    }
+        return {RULES_NOT_FOUND};
+
     string line;
     while (getline(file, line))
     {
-       cout << line << endl;
+        cout << line << endl;
     }
-    return true;
+    cout << '\n';
+
+    return {};
 }
 
-bool doPlayerMove(bool& validInput, string& errorMessage, int &dx, int &dy)
-{
-    string input;
-
-    cout << "Insert movement: ";
-
-    if (!getInput(input))
-        return false;
-
-    if (input.length() != 1)
-    {
-        validInput = false;
-        errorMessage = GENERIC_ERROR;
-        return true;
-    }
-
-    char move = tolower(input.at(0));
-
-    switch (move)
-    {
-    case 'q':
-        dx = -1; dy = -1;
-        return true;
-    case 'w':
-        dx = 0; dy = -1;
-        return true;
-    case 'e':
-        dx = 1; dy = -1;
-        return true;
-    case 'a':
-        dx = -1; dy = 0;
-        return true;
-    case 's':
-        dx = 0; dy = 0;
-        return true;
-    case 'd':
-        dx = 1; dy = 0;
-        return true;
-    case 'z':
-        dx = -1; dy = 1;
-        return true;
-    case 'x':
-        dx = 0; dy = 1;
-        return true;
-    case 'c':
-        dx = 1; dy = 1;
-        return true;
-    default:
-        validInput = false;
-        errorMessage = GENERIC_ERROR;
-        return true;
-    }
-}
-
-bool mainMenu(GameState& gameState, bool& validInput, string& errorMessage)
+/**
+ * The start of the game. Asks the user what he wants to do.
+ * 
+ * @param gameState The game state
+ * @returns false if the user wants to exit the game
+ */
+bool mainMenu(GameState &gameState, Result &valid)
 {
     string input;
 
     // Print menu
-    if (validInput)
+    if (valid)
         cout << "Main menu: \n\n"
-        "1) Rules \n"
-        "2) Play \n"
-        "3) Winners \n"
-        "0) Exit \n\n";
+                "1) Rules \n"
+                "2) Play \n"
+                "3) Winners \n"
+                "0) Exit \n\n";
 
     cout << "Please insert option: ";
 
@@ -186,13 +122,13 @@ bool mainMenu(GameState& gameState, bool& validInput, string& errorMessage)
     if (!getInput(input))
         return false; // EOF, exit game
 
-    validInput = true;
+    valid = {};
 
     if (input == "1")
     {
         // New line for spacing
         cout << "\n";
-        return showRules(); // Show the rules
+        valid = showRules(); // Show the rules
     }
     else if (input == "2")
     {
@@ -200,21 +136,19 @@ bool mainMenu(GameState& gameState, bool& validInput, string& errorMessage)
         cout << "\n";
         gameState = GameState::mazeMenu; // Pick the maze
     }
+    else if (input == "3")
+    {
+        // New line for spacing
+        cout << "\n";
+        gameState = GameState::winners;
+    }
     else if (input == "0")
     {
         return false; // Leave the game
     }
-    else if (input == "3")
-    {
-        gameState = GameState::winners;
-        /*Leaderboard winnings;
-        winnings.readLeaderboard(mazeNumber);
-        winnings.saveLeaderboard(mazeNumber);*/
-    }
     else
     {
-        validInput = false;
-        errorMessage = GENERIC_ERROR;
+        valid = {GENERIC_ERROR};
     }
 
     return true;
@@ -227,16 +161,15 @@ bool mainMenu(GameState& gameState, bool& validInput, string& errorMessage)
  * @param number The maze number
  * @returns true if the number is valid
  */
-bool validMazeNumber(const string& number)
+bool validMazeNumber(const string &number)
 {
     return number.length() == 2 && isdigit(number.at(0)) && isdigit(number.at(1));
 }
 
-bool getmaze(bool& validInput, string& errorMessage, string &mazeNumber)
+bool getMazeNumber(std::string &mazeNumber, Result &valid)
 {
-    //// Reset maze variable
-    //maze = Maze();
-    validInput = true;
+    valid = {};
+
     // Ask user for input
     cout << "Input number of the maze: ";
 
@@ -248,17 +181,12 @@ bool getmaze(bool& validInput, string& errorMessage, string &mazeNumber)
     // "" -> "0" -> "00"
     // "5" -> "05"
     while (mazeNumber.length() < 2)
-    {
         mazeNumber = "0"s + mazeNumber;
-    }
 
     // Maze number is invalid
     if (!validMazeNumber(mazeNumber))
-    {
-        validInput = false;
-        errorMessage = INVALID_MAZE_NUMBER;
-        return true;
-    }
+        valid = {INVALID_MAZE_NUMBER};
+
     return true;
 }
 
@@ -270,11 +198,13 @@ bool getmaze(bool& validInput, string& errorMessage, string &mazeNumber)
  *
  * @returns false if the player wants to exit the game
  */
-bool mazeMenu(GameState& gameState, bool& validInput, string& errorMessage, Game &game)
+bool mazeMenu(GameState &gameState, Game &game, Result &valid)
 {
     string mazeNumber;
-    if (!getmaze(validInput, errorMessage, mazeNumber))
+    if (!getMazeNumber(mazeNumber, valid))
         return false;
+    if (!valid)
+        return true;
 
     // User wants to return to main menu
     if (mazeNumber == "00")
@@ -284,14 +214,65 @@ bool mazeMenu(GameState& gameState, bool& validInput, string& errorMessage, Game
         return true;
     }
 
-    if (!game.loadMaze(mazeNumber))
+    valid = game.loadMaze(mazeNumber);
+
+    if (valid)
+        // Start the game
+        gameState = GameState::inGame;
+
+    return true;
+}
+
+bool movePlayer(Game &game, Result &valid)
+{
+    string input;
+
+    cout << "Insert movement: ";
+
+    if (!getInput(input))
+        return false;
+
+    if (input.length() != 1)
     {
+        valid = {GENERIC_ERROR};
         return true;
     }
 
-    // Start the game
-    gameState = GameState::inGame;
-    return true;
+    char move = tolower(input.at(0));
+
+    switch (move)
+    {
+    case 'q':
+        valid = game.movePlayer(-1, -1);
+        return true;
+    case 'w':
+        valid = game.movePlayer(0, -1);
+        return true;
+    case 'e':
+        valid = game.movePlayer(1, -1);
+        return true;
+    case 'a':
+        valid = game.movePlayer(-1, 0);
+        return true;
+    case 's':
+        valid = game.movePlayer(0, 0);
+        return true;
+    case 'd':
+        valid = game.movePlayer(1, 0);
+        return true;
+    case 'z':
+        valid = game.movePlayer(-1, 1);
+        return true;
+    case 'x':
+        valid = game.movePlayer(0, 1);
+        return true;
+    case 'c':
+        valid = game.movePlayer(1, 1);
+        return true;
+    default:
+        valid = {GENERIC_ERROR};
+        return true;
+    }
 }
 
 /**
@@ -308,13 +289,11 @@ bool mazeMenu(GameState& gameState, bool& validInput, string& errorMessage, Game
  *
  * @returns false if the user wants to exit the game
  */
-bool inGame(GameState& gameState, bool& validInput, string& errorMessage, Game &game)
+bool inGame(GameState &gameState, Game &game, Result &valid)
 {
     // Show maze
-    if (validInput)
-    {
+    if (valid)
         game.displayMaze();
-    }
 
     // Check if game is over
     if (game.isGameOver())
@@ -322,14 +301,12 @@ bool inGame(GameState& gameState, bool& validInput, string& errorMessage, Game &
         gameState = GameState::finished;
         return true;
     }
-    int dx, dy;
-    doPlayerMove(validInput, errorMessage, dx, dy);
-    if (!game.movePlayer(dx, dy))
-        return false;
-    if (!validInput)
-        return true;
 
-    game.tick();
+    if (!movePlayer(game, valid))
+        return false;
+
+    if (valid)
+        game.tick();
 
     return true;
 }
@@ -345,11 +322,11 @@ bool inGame(GameState& gameState, bool& validInput, string& errorMessage, Game &
  *
  * @returns false if the user wants to exit the game
  */
-bool finished(GameState& gameState, bool& validInput, string& errorMessage, Game &game)
+bool finished(GameState &gameState, Game &game, Result &valid)
 {
     if (game.isPlayerAlive())
     {
-        if (validInput)
+        if (valid)
             cout << "You win!\n";
 
         cout << "Please insert your name: ";
@@ -366,29 +343,24 @@ bool finished(GameState& gameState, bool& validInput, string& errorMessage, Game
         size_t nameLength = utf8Length(person.name);
         if (nameLength > 15)
         {
-            validInput = false;
-            errorMessage = INVALID_NAME;
+            valid = {INVALID_NAME};
             return true;
         }
         else if (nameLength == 0)
         {
-            validInput = false;
-            errorMessage = GENERIC_ERROR;
+            valid = {GENERIC_ERROR};
             return true;
         }
-        validInput = true;
+        valid = {};
         // Name is valid, pad it out to a length of 15
         person.name += string(15 - nameLength, ' ');
         string mazeNumber = game.getMazeNumber();
         Leaderboard leaderboard(mazeNumber);
 
-
         /*if (!searchSameName(leaderboard, person, validInput, errorMessage))
             return false;*/
 
-        if (!validInput)
-            return true;
-        LeaderboardEntry *otherPerson =leaderboard.searchSameName(person);
+        LeaderboardEntry *otherPerson = leaderboard.searchSameName(person);
         if (otherPerson)
         {
             cout << "That name already exits in the leaderboard! Do you wish to continue with it? (y/N) ";
@@ -397,20 +369,20 @@ bool finished(GameState& gameState, bool& validInput, string& errorMessage, Game
 
             if (!getInput(decision))
                 return false;
+
             if (decision == "y" || decision == "Y")
             {
                 // Only save new score if it's better than the current one
                 if (person.points < otherPerson->points)
-                    otherPerson-> points = person.points;
+                    otherPerson->points = person.points;
             }
             else
             {
-                validInput = false;
-                errorMessage = ANOTHER_NAME;
+                valid = {ANOTHER_NAME};
+                return true;
             }
         }
         leaderboard.addName(person);
-
 
         leaderboard.sort();
 
@@ -430,54 +402,55 @@ bool finished(GameState& gameState, bool& validInput, string& errorMessage, Game
     return getInput(i);
 }
 
-bool winner(GameState& gameState, bool& validInput, string& errorMessage, Game& game)
+bool winners(GameState &gameState, Result &valid)
 {
     string mazeNumber;
-    getmaze(validInput, errorMessage, mazeNumber);
+
+    if (!getMazeNumber(mazeNumber, valid))
+        return false;
+    if (!valid)
+        return true;
 
     Leaderboard leaderboard(mazeNumber);
 
     leaderboard.print(cout);
     gameState = GameState::mainMenu;
-    
-    return true;
 
+    return true;
 }
 
 int main()
 {
     /** Whether the program is running */
     bool running = true;
-    /** Whether the last input was valid */
-    bool validInput = true;
-    /** The message to show if the input was invalid */
-    string errorMessage;
     /** The game state */
     GameState gameState = GameState::mainMenu;
+
+    Result valid{};
 
     Game game;
 
     while (running)
     {
-        if (!validInput)
-            cout << errorMessage << "\n\n";
+        if (!valid)
+            cout << valid << "\n\n";
 
         switch (gameState)
         {
         case GameState::mainMenu:
-            running = mainMenu(gameState, validInput, errorMessage);
+            running = mainMenu(gameState, valid);
             break;
         case GameState::mazeMenu:
-            running = mazeMenu(gameState, validInput, errorMessage, game);
+            running = mazeMenu(gameState, game, valid);
             break;
         case GameState::inGame:
-            running = inGame(gameState, validInput, errorMessage, game);
-            break;
-        case GameState::winners:
-            running = winner(gameState, validInput, errorMessage, game);
+            running = inGame(gameState, game, valid);
             break;
         case GameState::finished:
-            running = finished(gameState, validInput, errorMessage, game);
+            running = finished(gameState, game, valid);
+            break;
+        case GameState::winners:
+            running = winners(gameState, valid);
             break;
         }
     }

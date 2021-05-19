@@ -5,7 +5,6 @@
 #include <sstream>
 #include <algorithm>
 #include <iomanip>
-#inc
 
 #include "leaderboard.h"
 #include "util.h"
@@ -69,10 +68,9 @@ void Leaderboard::print(std::ostream &out)
     {
         out << "Empty list\n\n";
     }
-    else 
+    else
     {
         out << "Player          - Time\n----------------------\n";
-
 
         for (auto person : data)
         {
@@ -92,9 +90,9 @@ void Leaderboard::save()
     file.close();
 }
 
-LeaderboardEntry* Leaderboard::searchSameName(const LeaderboardEntry& person)
+LeaderboardEntry *Leaderboard::searchSameName(const LeaderboardEntry &person)
 {
-    for (auto& other : data)
+    for (auto &other : data)
     {
         if (other.name == person.name)
         {
@@ -104,8 +102,7 @@ LeaderboardEntry* Leaderboard::searchSameName(const LeaderboardEntry& person)
     return nullptr;
 }
 
-void Leaderboard::addName(LeaderboardEntry& person)
+void Leaderboard::addName(LeaderboardEntry &person)
 {
     data.push_back(person);
-
 }
