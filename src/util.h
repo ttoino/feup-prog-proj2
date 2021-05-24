@@ -32,4 +32,20 @@ bool isUtf8Byte1(const char c);
  */
 size_t utf8Length(const std::string &str);
 
+/**
+ * Normalizes input.
+ * Replaces all tabs with spaces, removes duplicate spaces and trims spaces from the start and the end.
+ *
+ * @param input The input to normalize
+ */
+void normalizeInput(std::string &input);
+
+/**
+ * Gets a line from stdin, normalizes it, and returns false if the eof bit is set.
+ *
+ * @param input Where to store the input
+ * @returns false if the eof bit is set, true otherwise
+ */
+bool getInput(std::string &input);
+
 #endif

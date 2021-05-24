@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 #include "util.h"
 
@@ -21,4 +22,44 @@ size_t utf8Length(const std::string &str)
         length += isUtf8Byte1(c);
 
     return length;
+}
+
+void normalizeInput(std::string &input)
+{
+    char last = 0;
+    size_t i = 0;
+    while (i < input.length())
+    {
+        char &c = input.at(i);
+
+        // Replace tabs with spaces
+        if (c == '\t')
+            c = ' ';
+
+        // Delete character if it is a space at the begining, at the end or after another space
+        if (c == ' ' && (last == ' ' || last == 0 || i == input.length() - 1 || i == 0))
+        {
+            input.erase(i, 1);
+
+            // If we're outside the string, go back one
+            if (i == input.length())
+                i--;
+        }
+        else
+        {
+            i++;
+            last = c;
+        }
+    }
+}
+
+bool getInput(std::string &input)
+{
+    std::getline(std::cin, input);
+    normalizeInput(input);
+
+    if (std::cin.eof())
+        return false;
+
+    return true;
 }
