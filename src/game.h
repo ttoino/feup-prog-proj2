@@ -13,75 +13,75 @@
 class Game
 {
 public:
-    /**Default constructor*/
+    /** Default constructor */
     Game();
 
     /**Destructor, deletes the maze and the player information*/
     ~Game();
 
-    /**@return return the number of the maze the player is playing*/
+    /** @returns The number of the maze the player is playing */
     std::string getMazeNumber() const;
 
-    /**@return returns the time of the start of the game*/
+    /** @returns When the game started */
     std::chrono::steady_clock::time_point getStartTime() const;
 
     /**
-     * Loads a maze from the respective file.
-     * Tries to handle invalid files.???
+     * Loads a maze from the respective file. 
+     * Sets all relevant properties, including the maze number. 
+     * Tries to handle invalid files.
      *
-     * @param mazeNumber 
+     * @param mazeNumber The number of the maze to load (in the range "01" to "99")
      *
-     * @returns _______________-
+     * @returns A Result object. See its documentation for more info
      */
     Result loadMaze(const std::string &mazeNumber);
 
     /**
-     * Checks if the game has ended, either because the player reaches the exits or because the player is dead.
+     * Checks if the game has ended, either because the player's reached the exits or because the player is dead.
      *
-     * @returns true if the game is over
+     * @returns Whether the game is over
      */
     bool isGameOver() const;
 
     /**
     * Checks if the player is still alive
     * 
-    * @return returns true if the player is alive 
+    * @returns Whether the player is alive 
     */
     bool isPlayerAlive() const;
 
     /**
-     * Receives the new movement of the player and moves accordingly
-     * If it's invalid shows a helpful error message.
+     * Moves the player in the specified direction. 
+     * Is unsuccessful if the movement is invalid
      * 
-     * @returns ------------------
+     * @param dx How many cells to move in the x axis
+     * @param dy How many cells to move in the y axis
+     * 
+     * @returns A Result object. See its documentation for more info
      */
     Result movePlayer(int dx, int dy);
 
-    /**Moves the robots if the player is alive*/
+    /** Moves the robots if the player is alive */
     void tick();
 
-    /**
-     * Prints the maze's visualMap.
-     *
-     */
+    /** Prints the game's current state to stdout */
     void displayMaze();
 
 private:
-
-    /**A string with the number of the maze where the game is happening*/
+    /** The number of the maze the player is playing */
     std::string mazeNumber;
 
-    /**Starts the clock of the game*/
+    /** When the game started */
     std::chrono::steady_clock::time_point startTime;
 
-    /**Pointer to the maze*/
+    /** Pointer to the current maze */
     Maze *maze;
-    /**Pointer to the player*/
+    /** Pointer to the player */
     Player *player;
-    /**Vector of the different robots and their features*/
+    /** A vector holding all the robots */
     std::vector<Robot> robots;
 
-    /**Starts over in case of some error*/
+    /** Reset all properties */
     void reset();
 
     /**
@@ -91,7 +91,7 @@ private:
     void moveRobots();
 
     /**
-     * Checks if two robots occupy the same cell.
+     * Checks if two robots occupy the same cell
      *
      * @param r1 The first robot
      * @param r2 The second robot
@@ -100,8 +100,8 @@ private:
      */
     bool robotRobotCollision(const Robot &r1, const Robot &r2);
 
-   /**
-    * Checks if a robot and a player occupy the same cell.
+    /**
+    * Checks if a robot occupies the same cell as the player
     *
     * @param robot The robot
     *
@@ -110,32 +110,32 @@ private:
     bool playerRobotCollision(const Robot &robot);
 
     /**
-    * Checks if there's a eletrified post at the position given
+    * Checks if there's an electrified post at the position given
     * 
     * @param column Position on the x-axis 
     * @param line Position on the y-axis 
     * 
-    * @return index of the post in the maze vector or -1 if it wasn't found
+    * @return index of the post or -1 if it wasn't found
     */
     int electrifiedPostAt(size_t column, size_t line) const;
 
     /**
-    * Checks if there's a non-eletrified post at the position given
+    * Checks if there's a non-electrified post at the position given
     *
     * @param column Position on the x-axis
     * @param line Position on the y-axis
     *
-    * @return index of the post in the maze vector or -1 if it wasn't found
+    * @return index of the post or -1 if it wasn't found
     */
     int nonElectrifiedPostAt(size_t column, size_t line) const;
 
     /**
-    * Checks if there's a exit at the position given
+    * Checks if there's an exit at the position given
     *
     * @param column Position on the x-axis
     * @param line Position on the y-axis
     *
-    * @return index of the exit in the maze vector or -1 if it wasn't found
+    * @return index of the exit or -1 if it wasn't found
     */
     int exitAt(size_t column, size_t line) const;
 
@@ -145,17 +145,17 @@ private:
     * @param column Position on the x-axis
     * @param line Position on the y-axis
     *
-    * @return index of the dead robot in the maze vector or -1 if it wasn't found
+    * @return index of the dead robot or -1 if it wasn't found
     */
     int deadRobotAt(size_t column, size_t line) const;
 
     /**
-    * Checks if there's a alive robot at the position given
+    * Checks if there's an alive robot at the position given
     *
     * @param column Position on the x-axis
     * @param line Position on the y-axis
     *
-    * @return index of the alive robot in the maze vector or -1 if it wasn't found
+    * @return index of the alive robot or -1 if it wasn't found
     */
     int aliveRobotAt(size_t column, size_t line) const;
 };

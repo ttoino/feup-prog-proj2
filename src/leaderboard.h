@@ -20,46 +20,49 @@ class Leaderboard
 {
 public:
     /**
-    * Constructor, initializes the leaderboard by reading it with the function load() and saving the repective maze number
+    * Constructor, initializes the leaderboard by reading it with the function load() and saving the respective maze number
     * 
     * @param mazeNumber Which maze to read (in the range "01" to "99")
     */
     Leaderboard(const std::string &mazeNumber);
 
-    /** Sorts a leaderboard by points.*/
+    /** Sorts the leaderboard by points */
     void sort();
 
     /**
-     * Prints a formated leaderboard onto an output stream.
+     * Prints the formated leaderboard onto an output stream
+     * 
      * @param out Where to print the leaderboard
      */
     void print(std::ostream &out);
 
-    /** Saves a formated leaderboard onto a file */
+    /** Saves the formated leaderboard onto its file */
     void save();
 
     /**
-     * Searches the leaderboard for an entry with the same name.
+     * Searches the leaderboard for an entry with the same name
      *
      * @param person The person with the name to search for
-     * @returns the leaderboard entry of the person with the same base on the leaderboard
+     * 
+     * @returns the leaderboard entry of the person with the same name on the leaderboard
      */
     LeaderboardEntry *searchSameName(const LeaderboardEntry &person);
 
-    /*
-    * Adds another entry to the leaderboard
-    * @param person The entry that we want to add
+    /**
+    * Adds an entry to the leaderboard
+    * 
+    * @param person The entry to add
     */
     void addName(LeaderboardEntry &person);
 
 private:
-    /**A vector with all the entries inside it*/
+    /** A vector holding the entries */
     std::vector<LeaderboardEntry> data;
 
-    /**A string with the number of the leaderboard maze*/
+    /** The number of the maze */
     std::string mazeNumber;
 
-    /**Reads a leaderboard file.*/
+    /** Loads the leaderboard from its file */
     void load();
 };
 #endif

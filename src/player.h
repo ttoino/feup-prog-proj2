@@ -3,44 +3,45 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+/**
+ * This class represents the player
+ */
 class Player
 {
 public:
-    
-    /** Constructer, initializes de Player with their position
-    * @param column The column of the player position
-    * @param line The line of the player position
-    */
+    /** 
+     * Creates an alive player with the specified position
+     * 
+     * @param column The position on the x-axis
+     * @param line The position on the y-axis
+     */
     Player(size_t column, size_t line);
 
     /**
-    * Change the state of the Player to false if the robot is dead
-    * @param alive Boolian expression
-    */
+     * Update the player to be alive or dead
+     * 
+     * @param alive Whether the plyer is alive or dead
+     */
     void setAlive(bool alive);
 
     /**
-    * Updates the position of the player to the parameters given
-    * @param column Number of the new collun
-    * @param line Number of the new line
-    */
+     * Updates the player's position
+     * 
+     * @param column The position on the x-axis
+     * @param line The position on the y-axis
+     */
     void setPosition(size_t column, size_t line);
 
-    /**
-    * checks if the player is alive or dead
-    * @return true if the player is alive, false if the player is dead
-    */
+    /** @returns Whether the player is alive or dead */
     bool isAlive() const;
 
-    /** @return returns the line of the player position at the moment*/
+    /** @returns The position on the y-axis */
     size_t getLine() const;
 
-
-    /** @return returns the column of the player position at the moment*/
+    /** @returns The position on the x-axis */
     size_t getColumn() const;
 
 private:
-
     /** Whether the plyer is alive or dead */
     bool alive;
 

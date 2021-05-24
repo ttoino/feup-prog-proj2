@@ -1,24 +1,27 @@
 #ifndef POST_H
 #define POST_H
 
+/**
+ * This class represents a post (electrified, non-electrified or an exit)
+ */
 class Post
 {
 public:
-
-    /** Constructer, initializes de post with its position
-    * @param Column The column is the position on the x-axis
-    * @param line The line is the position on the y-axis
-    */
+    /** 
+     * Creates a post at the specified position
+     * 
+     * @param column The position on the x-axis
+     * @param line The position on the y-axis
+     */
     Post(size_t column, size_t line);
 
-    /** @return returns the column of the post position*/
+    /** @returns The position on the x-axis */
     size_t getColumn() const;
 
-    /** @return returns the line of the post position*/
+    /** @returns The position on the y-axis */
     size_t getLine() const;
 
 private:
-
     /** Position on the x-axis */
     size_t column;
 

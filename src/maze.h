@@ -7,7 +7,7 @@
 #include "post.h"
 
 /**
- * This class represents a maze.
+ * This class represents a maze
  */
 class Maze
 {
@@ -24,11 +24,11 @@ public:
     size_t getNCols() const;
     /** @returns The size of the maze on the y-axis */
     size_t getNLines() const;
-    /** @returns A vector that holds this maze's exits */
+    /** @returns A vector holding this maze's exits */
     std::vector<Post> &getExits();
-    /** @returns A vector that holds this maze's electrified posts */
+    /** @returns A vector holding this maze's electrified posts */
     std::vector<Post> &getElectrified();
-    /** @returns A vector that holds this maze's non electrified posts */
+    /** @returns A vector holding this maze's non electrified posts */
     std::vector<Post> &getNonElectrified();
 
 private:
@@ -36,11 +36,11 @@ private:
     size_t nCols;
     /** Size of the maze on the y-axis */
     size_t nLines;
-    /** Vector that holds this maze's exits */
+    /** Vector holding this maze's exits */
     std::vector<Post> exits;
-    /** Vector that holds this maze's electrified posts */
+    /** Vector holding this maze's electrified posts */
     std::vector<Post> electrified;
-    /** Vector that holds this maze's non electrified posts */
+    /** Vector holding this maze's non electrified posts */
     std::vector<Post> nonElectrified;
 };
 

@@ -28,6 +28,11 @@ enum class GameState
     winners
 };
 
+/**
+ * Reads the rules from their file and prints them to stdout
+ * 
+ * @returns A Result object. See its documentation for more info
+ */
 Result showRules()
 {
     ifstream file("RULES.txt");
@@ -50,6 +55,8 @@ Result showRules()
  * The start of the game. Asks the user what he wants to do.
  * 
  * @param gameState The game state
+ * @param valid The Result object from the last program cycle. Is updated by this function
+ * 
  * @returns false if the user wants to exit the game
  */
 bool mainMenu(GameState &gameState, Result &valid)
@@ -114,6 +121,14 @@ bool validMazeNumber(const string &number)
     return number.length() == 2 && isdigit(number.at(0)) && isdigit(number.at(1));
 }
 
+/**
+ * Asks the player for a maze number.
+ *
+ * @param mazeNumber Where to store the maze number
+ * @param valid The Result object from the last program cycle. Is updated by this function
+ *
+ * @returns false if the user wants to exit the game
+ */
 bool getMazeNumber(std::string &mazeNumber, Result &valid)
 {
     valid = {};
@@ -142,7 +157,8 @@ bool getMazeNumber(std::string &mazeNumber, Result &valid)
  * Receives input from the player and loads the respective maze.
  *
  * @param gameState The game state
- * @param maze Where the maze is stored
+ * @param game The current game
+ * @param valid The Result object from the last program cycle. Is updated by this function
  *
  * @returns false if the player wants to exit the game
  */
@@ -171,6 +187,14 @@ bool mazeMenu(GameState &gameState, Game &game, Result &valid)
     return true;
 }
 
+/**
+ * Asks the player for player movement and moves the player.
+ *
+ * @param game The current game
+ * @param valid The Result object from the last program cycle. Is updated by this function
+ *
+ * @returns false if the user wants to exit the game
+ */
 bool movePlayer(Game &game, Result &valid)
 {
     string input;
@@ -224,16 +248,15 @@ bool movePlayer(Game &game, Result &valid)
 }
 
 /**
- * Handles in game logic:
- * - Shows the maze
- * - Asks the player for input and moves him
- * - Moves the robots
+ * Handles in game logic: 
+ * - Shows the maze 
+ * - Asks the player for input and moves them 
+ * - Moves the robots 
  * - Handles collisions
  *
  * @param gameState The state the game is in
- * @param maze The maze
- * @param validInput Whether the last input was valid
- * @param errorMessage The error message returned if the input was invalid
+ * @param game The current game
+ * @param valid The Result object from the last program cycle. Is updated by this function
  *
  * @returns false if the user wants to exit the game
  */
@@ -264,9 +287,8 @@ bool inGame(GameState &gameState, Game &game, Result &valid)
  * If the player won asks for his name and saves it on the leaderboard.
  *
  * @param gameState The state the game is in
- * @param maze The maze
- * @param validInput Whether the last input was valid
- * @param errorMessage The error message returned if the input was invalid
+ * @param game The current game
+ * @param valid The Result object from the last program cycle. Is updated by this function
  *
  * @returns false if the user wants to exit the game
  */
@@ -351,6 +373,14 @@ bool finished(GameState &gameState, Game &game, Result &valid)
     return getInput(i);
 }
 
+/**
+ * Asks the player for a maze number and shows its leaderboard.
+ *
+ * @param gameState The state the game is in
+ * @param valid The Result object from the last program cycle. Is updated by this function
+ *
+ * @returns false if the user wants to exit the game
+ */
 bool winners(GameState &gameState, Result &valid)
 {
     string mazeNumber;
@@ -375,10 +405,10 @@ int main()
     bool running = true;
     /** The game state */
     GameState gameState = GameState::mainMenu;
-
+    /** The Result object from the last program cycle */
     Result valid{};
-
-    Game game;
+    /** The current game */
+    Game game{};
 
     while (running)
     {
