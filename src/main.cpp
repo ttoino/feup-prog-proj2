@@ -265,7 +265,10 @@ bool inGame(GameState &gameState, Game &game, Result &valid)
 {
     // Show maze
     if (valid)
+    {
+        std::cout << "\n";
         game.displayMaze();
+    }
 
     // Check if game is over
     if (game.isGameOver())
@@ -391,8 +394,17 @@ bool winners(GameState &gameState, Result &valid)
     if (!valid)
         return true;
 
+    // User wants to return to main menu
+    if (mazeNumber == "00")
+    {
+        std::cout << "\n";
+        gameState = GameState::mainMenu;
+        return true;
+    }
+
     Leaderboard leaderboard(mazeNumber);
 
+    std::cout << "\n";
     leaderboard.print(std::cout);
     std::cout << "\n";
     gameState = GameState::mainMenu;

@@ -68,7 +68,7 @@ void Leaderboard::print(std::ostream &out)
 {
     if (data.empty())
     {
-        out << "Empty list\n\n";
+        out << "Empty list\n";
     }
     else
     {
