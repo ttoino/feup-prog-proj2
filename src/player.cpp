@@ -4,7 +4,7 @@
 
 #include "player.h"
 
-Player::Player(size_t column, size_t line)
+Player::Player(unsigned int column, unsigned int line)
     : column(column), line(line), alive(true) {}
 
 void Player::setAlive(bool alive)
@@ -12,7 +12,7 @@ void Player::setAlive(bool alive)
     this->alive = alive;
 }
 
-void Player::setPosition(size_t column, size_t line)
+void Player::setPosition(unsigned int column, unsigned int line)
 {
     this->column = column;
     this->line = line;
@@ -20,6 +20,6 @@ void Player::setPosition(size_t column, size_t line)
 
 bool Player::isAlive() const { return alive; }
 
-size_t Player::getLine() const { return line; }
+unsigned int Player::getLine() const { return line; }
 
-size_t Player::getColumn() const { return column; }
+unsigned int Player::getColumn() const { return column; }

@@ -128,7 +128,7 @@ private:
     * 
     * @return index of the post or -1 if it wasn't found
     */
-    int electrifiedPostAt(size_t column, size_t line) const;
+    int electrifiedPostAt(unsigned int column, unsigned int line) const;
 
     /**
     * Checks if there's a non-electrified post at the position given
@@ -138,7 +138,7 @@ private:
     *
     * @return index of the post or -1 if it wasn't found
     */
-    int nonElectrifiedPostAt(size_t column, size_t line) const;
+    int nonElectrifiedPostAt(unsigned int column, unsigned int line) const;
 
     /**
     * Checks if there's an exit at the position given
@@ -148,7 +148,7 @@ private:
     *
     * @return index of the exit or -1 if it wasn't found
     */
-    int exitAt(size_t column, size_t line) const;
+    int exitAt(unsigned int column, unsigned int line) const;
 
     /**
     * Checks if there's a dead or stuck robot at the position given
@@ -158,7 +158,7 @@ private:
     *
     * @return index of the dead robot or -1 if it wasn't found
     */
-    int deadRobotAt(size_t column, size_t line) const;
+    int deadRobotAt(unsigned int column, unsigned int line) const;
 
     /**
     * Checks if there's an alive robot at the position given
@@ -168,7 +168,7 @@ private:
     *
     * @return index of the alive robot or -1 if it wasn't found
     */
-    int aliveRobotAt(size_t column, size_t line) const;
+    int aliveRobotAt(unsigned int column, unsigned int line) const;
 };
 
 #endif

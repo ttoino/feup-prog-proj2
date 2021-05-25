@@ -5,7 +5,7 @@
 #include "robot.h"
 int Robot::robotCounter = 0;
 
-Robot::Robot(size_t column, size_t line)
+Robot::Robot(unsigned int column, unsigned int line)
 {
     this->line = line;
     this->column = column;
@@ -19,7 +19,7 @@ void Robot::setAlive(bool alive)
     this->alive = alive;
 }
 
-void Robot::moveRobot(size_t column, size_t line)
+void Robot::moveRobot(unsigned int column, unsigned int line)
 {
     this->line = line;
     this->column = column;
@@ -27,6 +27,6 @@ void Robot::moveRobot(size_t column, size_t line)
 
 bool Robot::isAlive() const { return alive; }
 
-size_t Robot::getLine() const { return line; }
+unsigned int Robot::getLine() const { return line; }
 
-size_t Robot::getColumn() const { return column; }
+unsigned int Robot::getColumn() const { return column; }

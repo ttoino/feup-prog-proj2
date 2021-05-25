@@ -44,7 +44,7 @@ Result Game::loadMaze(const std::string &mazeNumber)
 
     // Get number of rows and columns from top of file
     char x;
-    size_t nLines, nCols;
+    unsigned int nLines, nCols;
     file >> nLines >> x >> nCols;
 
     if (x != 'x' || file.fail())
@@ -53,7 +53,7 @@ Result Game::loadMaze(const std::string &mazeNumber)
     maze = new Maze(nLines, nCols);
 
     char c;
-    size_t i = 0;
+    unsigned int i = 0;
     while (file.get(c))
     {
         switch (c)
@@ -120,10 +120,10 @@ bool Game::isPlayerAlive() const
 
 Result Game::movePlayer(int dx, int dy)
 {
-    int newCol = player->getColumn() + dx;
-    int newLine = player->getLine() + dy;
+    unsigned int newCol = player->getColumn() + dx;
+    unsigned int newLine = player->getLine() + dy;
 
-    if (newCol < 0 || newCol >= maze->getNCols() || newLine < 0 || newLine >= maze->getNLines())
+    if (newCol >= maze->getNCols() || newLine >= maze->getNLines())
         return {OUT_OF_BOUNDS};
 
     if (nonElectrifiedPostAt(newCol, newLine) >= 0 || deadRobotAt(newCol, newLine) >= 0)
@@ -165,7 +165,7 @@ void Game::displayMaze()
 
     visualMap.at(player->getLine() * maze->getNCols() + player->getColumn()) = player->isAlive() ? ALIVE_PLAYER : DEAD_PLAYER;
 
-    for (size_t i = 0; i < visualMap.size(); ++i)
+    for (unsigned int i = 0; i < visualMap.size(); ++i)
     {
         std::cout << visualMap.at(i);
 
@@ -197,8 +197,8 @@ void Game::moveRobots()
         if (!robot.isAlive())
             continue;
 
-        size_t newColumn = robot.getColumn() + sign(player->getColumn() - robot.getColumn());
-        size_t newLine = robot.getLine() + sign(player->getLine() - robot.getLine());
+        unsigned int newColumn = robot.getColumn() + sign(player->getColumn() - robot.getColumn());
+        unsigned int newLine = robot.getLine() + sign(player->getLine() - robot.getLine());
 
         int i = electrifiedPostAt(newColumn, newLine);
         if (i >= 0)
@@ -250,10 +250,10 @@ bool Game::robotRobotCollision(const Robot &r1, const Robot &r2)
     return r1.getLine() == r2.getLine() && r1.getColumn() == r2.getColumn();
 }
 
-int Game::electrifiedPostAt(size_t column, size_t line) const
+int Game::electrifiedPostAt(unsigned int column, unsigned int line) const
 {
     auto electrified = maze->getElectrified();
-    for (size_t i = 0; i < electrified.size(); i++)
+    for (int i = 0; i < electrified.size(); i++)
     {
         auto post = electrified.at(i);
 
@@ -264,10 +264,10 @@ int Game::electrifiedPostAt(size_t column, size_t line) const
     return -1;
 }
 
-int Game::nonElectrifiedPostAt(size_t column, size_t line) const
+int Game::nonElectrifiedPostAt(unsigned int column, unsigned int line) const
 {
     auto nonElectrified = maze->getNonElectrified();
-    for (size_t i = 0; i < nonElectrified.size(); i++)
+    for (int i = 0; i < nonElectrified.size(); i++)
     {
         auto post = nonElectrified.at(i);
 
@@ -278,10 +278,10 @@ int Game::nonElectrifiedPostAt(size_t column, size_t line) const
     return -1;
 }
 
-int Game::exitAt(size_t column, size_t line) const
+int Game::exitAt(unsigned int column, unsigned int line) const
 {
     auto exits = maze->getExits();
-    for (size_t i = 0; i < exits.size(); i++)
+    for (int i = 0; i < exits.size(); i++)
     {
         auto exit = exits.at(i);
 
@@ -292,11 +292,11 @@ int Game::exitAt(size_t column, size_t line) const
     return -1;
 }
 
-int Game::deadRobotAt(size_t column, size_t line) const
+int Game::deadRobotAt(unsigned int column, unsigned int line) const
 {
-    for (size_t i = 0; i < robots.size(); i++)
+    for (int i = 0; i < robots.size(); i++)
     {
-        auto robot = robots.at(i);
+        const auto &robot = robots.at(i);
 
         if (!robot.isAlive() && robot.getColumn() == column && robot.getLine() == line)
             return i;
@@ -305,11 +305,11 @@ int Game::deadRobotAt(size_t column, size_t line) const
     return -1;
 }
 
-int Game::aliveRobotAt(size_t column, size_t line) const
+int Game::aliveRobotAt(unsigned int column, unsigned int line) const
 {
-    for (size_t i = 0; i < robots.size(); i++)
+    for (int i = 0; i < robots.size(); i++)
     {
-        auto robot = robots.at(i);
+        const auto &robot = robots.at(i);
 
         if (robot.isAlive() && robot.getColumn() == column && robot.getLine() == line)
             return i;

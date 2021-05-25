@@ -4,9 +4,9 @@
 
 #include "post.h"
 
-Post::Post(size_t column, size_t line)
+Post::Post(unsigned int column, unsigned int line)
     : column(column), line(line) {}
 
-size_t Post::getColumn() const { return column; }
+unsigned int Post::getColumn() const { return column; }
 
-size_t Post::getLine() const { return line; }
+unsigned int Post::getLine() const { return line; }

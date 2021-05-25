@@ -2,12 +2,12 @@
 
 #include "maze.h"
 
-Maze::Maze(size_t nLines, size_t nCols)
+Maze::Maze(unsigned int nLines, unsigned int nCols)
     : nLines(nLines), nCols(nCols) {}
 
-size_t Maze::getNLines() const { return nLines; }
+unsigned int Maze::getNLines() const { return nLines; }
 
-size_t Maze::getNCols() const { return nCols; }
+unsigned int Maze::getNCols() const { return nCols; }
 
 std::vector<Post> &Maze::getExits() { return exits; }
 

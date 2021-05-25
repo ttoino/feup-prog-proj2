@@ -17,20 +17,20 @@ public:
      * @param column The position on the x-axis
      * @param line The position on the y-axis
      */
-    Post(size_t column, size_t line);
+    Post(unsigned int column, unsigned int line);
 
     /** @returns The position on the x-axis */
-    size_t getColumn() const;
+    unsigned int getColumn() const;
 
     /** @returns The position on the y-axis */
-    size_t getLine() const;
+    unsigned int getLine() const;
 
 private:
     /** Position on the x-axis */
-    size_t column;
+    unsigned int column;
 
     /** Position on the y-axis */
-    size_t line;
+    unsigned int line;
 };
 
 #endif

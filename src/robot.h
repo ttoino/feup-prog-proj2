@@ -17,7 +17,7 @@ public:
      * @param column The position on the x-axis
      * @param line The position on the y-axis
      */
-    Robot(size_t column, size_t line);
+    Robot(unsigned int column, unsigned int line);
 
     /**
      * Update the robot to be alive or dead
@@ -32,16 +32,16 @@ public:
      * @param column The position on the x-axis
      * @param line The position on the y-axis
      */
-    void moveRobot(size_t column, size_t line);
+    void moveRobot(unsigned int column, unsigned int line);
 
     /** @returns Whether the robot is alive or dead */
     bool isAlive() const;
 
     /** @returns The position on the y-axis */
-    size_t getLine() const;
+    unsigned int getLine() const;
 
     /** @returns The position on the x-axis */
-    size_t getColumn() const;
+    unsigned int getColumn() const;
 
 private:
     /**used to attribute automatically the id to the robots*/
@@ -51,9 +51,9 @@ private:
     /** Whether the robot is alive or dead */
     bool alive;
     /** Position on the y-axis */
-    size_t line;
+    unsigned int line;
     /** Position on the x-axis */
-    size_t column;
+    unsigned int column;
 };
 
 #endif

@@ -17,7 +17,7 @@ public:
      * @param column The position on the x-axis
      * @param line The position on the y-axis
      */
-    Player(size_t column, size_t line);
+    Player(unsigned int column, unsigned int line);
 
     /**
      * Update the player to be alive or dead
@@ -32,25 +32,25 @@ public:
      * @param column The position on the x-axis
      * @param line The position on the y-axis
      */
-    void setPosition(size_t column, size_t line);
+    void setPosition(unsigned int column, unsigned int line);
 
     /** @returns Whether the player is alive or dead */
     bool isAlive() const;
 
     /** @returns The position on the y-axis */
-    size_t getLine() const;
+    unsigned int getLine() const;
 
     /** @returns The position on the x-axis */
-    size_t getColumn() const;
+    unsigned int getColumn() const;
 
 private:
     /** Whether the plyer is alive or dead */
     bool alive;
 
     /** Position on the x-axis */
-    size_t column;
+    unsigned int column;
 
     /** Position on the y-axis */
-    size_t line;
+    unsigned int line;
 };
 #endif

@@ -20,12 +20,12 @@ public:
      * @param nLines The size of the maze on the x-axis
      * @param nCols The size of the maze on the y-axis
      */
-    Maze(size_t nLines, size_t nCols);
+    Maze(unsigned int nLines, unsigned int nCols);
 
     /** @returns The size of the maze on the x-axis */
-    size_t getNCols() const;
+    unsigned int getNCols() const;
     /** @returns The size of the maze on the y-axis */
-    size_t getNLines() const;
+    unsigned int getNLines() const;
     /** @returns A vector holding this maze's exits */
     std::vector<Post> &getExits();
     /** @returns A vector holding this maze's electrified posts */
@@ -35,9 +35,9 @@ public:
 
 private:
     /** Size of the maze on the x-axis */
-    size_t nCols;
+    unsigned int nCols;
     /** Size of the maze on the y-axis */
-    size_t nLines;
+    unsigned int nLines;
     /** Vector holding this maze's exits */
     std::vector<Post> exits;
     /** Vector holding this maze's electrified posts */
