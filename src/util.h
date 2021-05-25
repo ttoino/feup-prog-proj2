@@ -50,4 +50,15 @@ void normalizeInput(std::string &input);
  */
 bool getInput(std::string &input);
 
+/**
+ * Converts 2d position to index of 1d vector
+ * 
+ * @param column Position on the x-axis
+ * @param line Position on the y-axis
+ * @param nCols Size on the x-axis
+ * 
+ * @returns The index
+ */
+size_t toIndex(size_t column, size_t line, size_t nCols);
+
 #endif

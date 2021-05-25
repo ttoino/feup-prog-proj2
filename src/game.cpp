@@ -149,21 +149,21 @@ void Game::tick()
 
 void Game::displayMaze()
 {
-    std::vector<char> visualMap(maze->getNCols() * maze->getNLines(), EMPTY_CELL);
+    std::vector<char> visualMap((size_t)maze->getNCols() * (size_t)maze->getNLines(), EMPTY_CELL);
 
     for (const Post &post : maze->getElectrified())
-        visualMap.at(post.getLine() * maze->getNCols() + post.getColumn()) = ELECTRIFIED_POST;
+        visualMap.at(toIndex(post.getColumn(), post.getLine(), maze->getNCols())) = ELECTRIFIED_POST;
 
     for (const Post &post : maze->getNonElectrified())
-        visualMap.at(post.getLine() * maze->getNCols() + post.getColumn()) = NON_ELECTRIFIED_POST;
+        visualMap.at(toIndex(post.getColumn(), post.getLine(), maze->getNCols())) = NON_ELECTRIFIED_POST;
 
     for (const Post &exit : maze->getExits())
-        visualMap.at(exit.getLine() * maze->getNCols() + exit.getColumn()) = EXIT;
+        visualMap.at(toIndex(exit.getColumn(), exit.getLine(), maze->getNCols())) = EXIT;
 
     for (const Robot &robot : robots)
-        visualMap.at(robot.getLine() * maze->getNCols() + robot.getColumn()) = robot.isAlive() ? ALIVE_ROBOT : DEAD_ROBOT;
+        visualMap.at(toIndex(robot.getColumn(), robot.getLine(), maze->getNCols())) = robot.isAlive() ? ALIVE_ROBOT : DEAD_ROBOT;
 
-    visualMap.at(player->getLine() * maze->getNCols() + player->getColumn()) = player->isAlive() ? ALIVE_PLAYER : DEAD_PLAYER;
+    visualMap.at(toIndex(player->getColumn(), player->getLine(), maze->getNCols())) = player->isAlive() ? ALIVE_PLAYER : DEAD_PLAYER;
 
     for (unsigned int i = 0; i < visualMap.size(); ++i)
     {
