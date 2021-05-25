@@ -199,8 +199,8 @@ void Game::moveRobots()
         if (!robot.isAlive())
             continue;
 
-        unsigned int newColumn = robot.getColumn() + sign(player->getColumn() - robot.getColumn());
-        unsigned int newLine = robot.getLine() + sign(player->getLine() - robot.getLine());
+        unsigned int newColumn = robot.getColumn() + sign((long)player->getColumn() - robot.getColumn());
+        unsigned int newLine = robot.getLine() + sign((long)player->getLine() - robot.getLine());
 
         int i = electrifiedPostAt(newColumn, newLine);
         if (i >= 0)
