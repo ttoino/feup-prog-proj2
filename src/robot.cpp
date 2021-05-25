@@ -1,3 +1,5 @@
+// T01_G07
+
 #include <cstddef>
 
 #include "robot.h"
@@ -11,7 +13,6 @@ Robot::Robot(size_t column, size_t line)
     id = robotCounter;
     robotCounter++;
 }
-
 
 void Robot::setAlive(bool alive)
 {

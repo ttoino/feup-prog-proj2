@@ -1,3 +1,5 @@
+// T01_G07
+
 #include "maze.h"
 
 Maze::Maze(size_t nLines, size_t nCols)
