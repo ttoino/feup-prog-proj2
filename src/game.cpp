@@ -61,25 +61,25 @@ Result Game::loadMaze(const std::string &mazeNumber)
         case '\n':
             // Ignore newlines
             continue;
-        case 'R':
+        case ALIVE_ROBOT:
             robots.push_back(Robot(i % nCols, i / nCols));
             break;
-        case 'H':
+        case ALIVE_PLAYER:
             if (player)
                 return {MULTIPLE_PLAYERS};
 
             player = new Player(i % nCols, i / nCols);
             break;
-        case ' ':
+        case EMPTY_CELL:
             // Ignore spaces
             break;
-        case '*':
+        case ELECTRIFIED_POST:
             maze->getElectrified().push_back(Post(i % nCols, i / nCols));
             break;
-        case '+':
+        case NON_ELECTRIFIED_POST:
             maze->getNonElectrified().push_back(Post(i % nCols, i / nCols));
             break;
-        case 'O':
+        case EXIT:
             maze->getExits().push_back(Post(i % nCols, i / nCols));
             break;
         default:
@@ -149,21 +149,21 @@ void Game::tick()
 
 void Game::displayMaze()
 {
-    std::vector<char> visualMap(maze->getNCols() * maze->getNLines(), ' ');
+    std::vector<char> visualMap(maze->getNCols() * maze->getNLines(), EMPTY_CELL);
 
     for (const Post &post : maze->getElectrified())
-        visualMap.at(post.getLine() * maze->getNCols() + post.getColumn()) = '*';
+        visualMap.at(post.getLine() * maze->getNCols() + post.getColumn()) = ELECTRIFIED_POST;
 
     for (const Post &post : maze->getNonElectrified())
-        visualMap.at(post.getLine() * maze->getNCols() + post.getColumn()) = '+';
+        visualMap.at(post.getLine() * maze->getNCols() + post.getColumn()) = NON_ELECTRIFIED_POST;
 
     for (const Post &exit : maze->getExits())
-        visualMap.at(exit.getLine() * maze->getNCols() + exit.getColumn()) = 'O';
+        visualMap.at(exit.getLine() * maze->getNCols() + exit.getColumn()) = EXIT;
 
     for (const Robot &robot : robots)
-        visualMap.at(robot.getLine() * maze->getNCols() + robot.getColumn()) = robot.isAlive() ? 'R' : 'r';
+        visualMap.at(robot.getLine() * maze->getNCols() + robot.getColumn()) = robot.isAlive() ? ALIVE_ROBOT : DEAD_ROBOT;
 
-    visualMap.at(player->getLine() * maze->getNCols() + player->getColumn()) = player->isAlive() ? 'H' : 'h';
+    visualMap.at(player->getLine() * maze->getNCols() + player->getColumn()) = player->isAlive() ? ALIVE_PLAYER : DEAD_PLAYER;
 
     for (size_t i = 0; i < visualMap.size(); ++i)
     {

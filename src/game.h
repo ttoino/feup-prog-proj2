@@ -12,6 +12,15 @@
 #include "robot.h"
 #include "leaderboard.h"
 
+const char ALIVE_ROBOT = 'R';
+const char DEAD_ROBOT = 'r';
+const char ALIVE_PLAYER = 'H';
+const char DEAD_PLAYER = 'h';
+const char ELECTRIFIED_POST = '*';
+const char NON_ELECTRIFIED_POST = '+';
+const char EXIT = 'O';
+const char EMPTY_CELL = ' ';
+
 class Game
 {
 public:
