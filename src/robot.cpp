@@ -3,16 +3,16 @@
 #include <cstddef>
 
 #include "robot.h"
+
 int Robot::robotCounter = 0;
 
-Robot::Robot(unsigned int column, unsigned int line)
+void Robot::resetCounter()
 {
-    this->line = line;
-    this->column = column;
-    alive = true;
-    id = robotCounter;
-    robotCounter++;
+    robotCounter = 0;
 }
+
+Robot::Robot(unsigned int column, unsigned int line)
+    : line(line), column(column), alive(true), id(++robotCounter) {}
 
 void Robot::setAlive(bool alive)
 {

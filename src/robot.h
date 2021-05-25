@@ -43,6 +43,9 @@ public:
     /** @returns The position on the x-axis */
     unsigned int getColumn() const;
 
+    /** Resets robot counter to 0 */
+    static void resetCounter();
+
 private:
     /**used to attribute automatically the id to the robots*/
     static int robotCounter;

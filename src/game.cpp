@@ -188,6 +188,8 @@ void Game::reset()
     }
     mazeNumber = "";
     robots = {};
+
+    Robot::resetCounter();
 }
 
 void Game::moveRobots()
