@@ -1,9 +1,9 @@
 // T01_G07
 
-#include <cstddef>
-
 #ifndef PLAYER_H
 #define PLAYER_H
+
+#include <cstddef>
 
 /**
  * This class represents the player

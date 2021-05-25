@@ -1,11 +1,11 @@
 // T01_G07
 
+#ifndef LEADERBOARD_H
+#define LEADERBOARD_H
+
 #include <vector>
 #include <string>
 #include <iostream>
-
-#ifndef LEADERBOARD_H
-#define LEADERBOARD_H
 
 /**
  * This struct represents an entry on the leaderboard.

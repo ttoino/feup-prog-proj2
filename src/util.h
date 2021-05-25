@@ -1,9 +1,9 @@
 // T01_G07
 
-#include <string>
-
 #ifndef UTIL_H
 #define UTIL_H
+
+#include <string>
 
 /**
  * Returns the sign of a number.

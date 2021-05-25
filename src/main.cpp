@@ -7,11 +7,10 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+
 #include "leaderboard.h"
 #include "game.h"
 #include "util.h"
-
-using namespace std;
 
 /**
  * This enum represents state the game is in.
@@ -37,18 +36,18 @@ enum class GameState
  */
 Result showRules()
 {
-    ifstream file("RULES.txt");
+    std::ifstream file("RULES.txt");
 
     // File doesn't exist
     if (!file.is_open())
         return {RULES_NOT_FOUND};
 
-    string line;
+    std::string line;
     while (getline(file, line))
     {
-        cout << line << endl;
+        std::cout << line << "\n";
     }
-    cout << '\n';
+    std::cout << '\n';
 
     return {};
 }
@@ -63,17 +62,17 @@ Result showRules()
  */
 bool mainMenu(GameState &gameState, Result &valid)
 {
-    string input;
+    std::string input;
 
     // Print menu
     if (valid)
-        cout << "Main menu: \n\n"
-                "1) Rules \n"
-                "2) Play \n"
-                "3) Winners \n"
-                "0) Exit \n\n";
+        std::cout << "Main menu: \n\n"
+                     "1) Rules \n"
+                     "2) Play \n"
+                     "3) Winners \n"
+                     "0) Exit \n\n";
 
-    cout << "Please insert option: ";
+    std::cout << "Please insert option: ";
 
     // Get input
     if (!getInput(input))
@@ -84,19 +83,19 @@ bool mainMenu(GameState &gameState, Result &valid)
     if (input == "1")
     {
         // New line for spacing
-        cout << "\n";
+        std::cout << "\n";
         valid = showRules(); // Show the rules
     }
     else if (input == "2")
     {
         // New line for spacing
-        cout << "\n";
+        std::cout << "\n";
         gameState = GameState::mazeMenu; // Pick the maze
     }
     else if (input == "3")
     {
         // New line for spacing
-        cout << "\n";
+        std::cout << "\n";
         gameState = GameState::winners;
     }
     else if (input == "0")
@@ -118,7 +117,7 @@ bool mainMenu(GameState &gameState, Result &valid)
  * @param number The maze number
  * @returns true if the number is valid
  */
-bool validMazeNumber(const string &number)
+bool validMazeNumber(const std::string &number)
 {
     return number.length() == 2 && isdigit(number.at(0)) && isdigit(number.at(1));
 }
@@ -136,7 +135,7 @@ bool getMazeNumber(std::string &mazeNumber, Result &valid)
     valid = {};
 
     // Ask user for input
-    cout << "Input number of the maze: ";
+    std::cout << "Input number of the maze: ";
 
     // Get input
     if (!getInput(mazeNumber))
@@ -166,7 +165,7 @@ bool getMazeNumber(std::string &mazeNumber, Result &valid)
  */
 bool mazeMenu(GameState &gameState, Game &game, Result &valid)
 {
-    string mazeNumber;
+    std::string mazeNumber;
     if (!getMazeNumber(mazeNumber, valid))
         return false;
     if (!valid)
@@ -175,7 +174,7 @@ bool mazeMenu(GameState &gameState, Game &game, Result &valid)
     // User wants to return to main menu
     if (mazeNumber == "00")
     {
-        cout << "\n";
+        std::cout << "\n";
         gameState = GameState::mainMenu;
         return true;
     }
@@ -199,9 +198,9 @@ bool mazeMenu(GameState &gameState, Game &game, Result &valid)
  */
 bool movePlayer(Game &game, Result &valid)
 {
-    string input;
+    std::string input;
 
-    cout << "Insert movement: ";
+    std::cout << "Insert movement: ";
 
     if (!getInput(input))
         return false;
@@ -299,14 +298,14 @@ bool finished(GameState &gameState, Game &game, Result &valid)
     if (game.isPlayerAlive())
     {
         if (valid)
-            cout << "You win!\n";
+            std::cout << "You win!\n";
 
-        cout << "Please insert your name: ";
+        std::cout << "Please insert your name: ";
 
         LeaderboardEntry person;
 
         // Save points as soon as possible
-        person.points = chrono::duration_cast<chrono::seconds>(chrono::steady_clock::now() - game.getStartTime()).count();
+        person.points = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - game.getStartTime()).count();
 
         if (!getInput(person.name))
             return false;
@@ -325,8 +324,8 @@ bool finished(GameState &gameState, Game &game, Result &valid)
         }
         valid = {};
         // Name is valid, pad it out to a length of 15
-        person.name += string(15 - nameLength, ' ');
-        string mazeNumber = game.getMazeNumber();
+        person.name += std::string(15 - nameLength, ' ');
+        std::string mazeNumber = game.getMazeNumber();
         Leaderboard leaderboard(mazeNumber);
 
         /*if (!searchSameName(leaderboard, person, validInput, errorMessage))
@@ -335,9 +334,9 @@ bool finished(GameState &gameState, Game &game, Result &valid)
         LeaderboardEntry *otherPerson = leaderboard.searchSameName(person);
         if (otherPerson)
         {
-            cout << "That name already exits in the leaderboard! Do you wish to continue with it? (y/N) ";
+            std::cout << "That name already exits in the leaderboard! Do you wish to continue with it? (y/N) ";
 
-            string decision;
+            std::string decision;
 
             if (!getInput(decision))
                 return false;
@@ -359,19 +358,19 @@ bool finished(GameState &gameState, Game &game, Result &valid)
 
         leaderboard.sort();
 
-        cout << '\n';
-        leaderboard.print(cout);
-        cout << '\n';
+        std::cout << '\n';
+        leaderboard.print(std::cout);
+        std::cout << '\n';
 
         leaderboard.save();
     }
     else
-        cout << "You lose :(\n";
+        std::cout << "You lose :(\n";
 
-    cout << "Press enter to continue\n";
+    std::cout << "Press enter to continue\n";
     gameState = GameState::mainMenu;
 
-    string i;
+    std::string i;
     return getInput(i);
 }
 
@@ -385,7 +384,7 @@ bool finished(GameState &gameState, Game &game, Result &valid)
  */
 bool winners(GameState &gameState, Result &valid)
 {
-    string mazeNumber;
+    std::string mazeNumber;
 
     if (!getMazeNumber(mazeNumber, valid))
         return false;
@@ -394,8 +393,8 @@ bool winners(GameState &gameState, Result &valid)
 
     Leaderboard leaderboard(mazeNumber);
 
-    leaderboard.print(cout);
-    cout << endl;
+    leaderboard.print(std::cout);
+    std::cout << "\n";
     gameState = GameState::mainMenu;
 
     return true;
@@ -415,7 +414,7 @@ int main()
     while (running)
     {
         if (!valid)
-            cout << valid << "\n\n";
+            std::cout << valid << "\n\n";
 
         switch (gameState)
         {
