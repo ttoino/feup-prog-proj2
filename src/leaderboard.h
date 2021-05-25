@@ -15,7 +15,7 @@ struct LeaderboardEntry
     /** The player's name */
     std::string name;
     /** The player's points */
-    unsigned int points;
+    unsigned long long points = 0;
 };
 
 class Leaderboard
