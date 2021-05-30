@@ -47,9 +47,9 @@ public:
     static void resetCounter();
 
 private:
-    /**used to attribute automatically the id to the robots*/
+    /** Used to automatically attribute an id to a robot */
     static int robotCounter;
-    /**differentiates the different robots by giving them an id*/
+    /** Used to identify different robots */
     int id;
     /** Whether the robot is alive or dead */
     bool alive;
