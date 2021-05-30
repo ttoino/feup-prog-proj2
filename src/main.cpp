@@ -1,11 +1,8 @@
 // T01_G07
 
 #include <iostream>
-#include <vector>
 #include <string>
-#include <iomanip>
 #include <fstream>
-#include <sstream>
 #include <chrono>
 
 #include "leaderboard.h"
