@@ -3,7 +3,18 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-#include <cstddef>
+/**  
+ * This enum represents the state the robot is in
+ */
+enum class RobotState
+{
+    /** The robot is alive */
+    alive,
+    /** The robot has hit an electrified post and is dead */
+    dead,
+    /** The robot has it a post or another robot and is stuck */
+    stuck
+};
 
 /**
  * This class represents a robot
@@ -24,7 +35,7 @@ public:
      * 
      * @param alive Whether the robot is alive or dead
      */
-    void setAlive(bool alive);
+    void setState(RobotState state);
 
     /**
      * Updates the robot's position
@@ -34,7 +45,7 @@ public:
      */
     void moveRobot(unsigned int column, unsigned int line);
 
-    /** @returns Whether the robot is alive or dead */
+    /** @returns Whether the robot is alive */
     bool isAlive() const;
 
     /** @returns The position on the y-axis */
@@ -52,7 +63,7 @@ private:
     /** Used to identify different robots */
     int id;
     /** Whether the robot is alive or dead */
-    bool alive;
+    RobotState state;
     /** Position on the y-axis */
     unsigned int line;
     /** Position on the x-axis */

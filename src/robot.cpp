@@ -1,7 +1,5 @@
 // T01_G07
 
-#include <cstddef>
-
 #include "robot.h"
 
 int Robot::robotCounter = 0;
@@ -12,11 +10,11 @@ void Robot::resetCounter()
 }
 
 Robot::Robot(unsigned int column, unsigned int line)
-    : line(line), column(column), alive(true), id(++robotCounter) {}
+    : line(line), column(column), state(RobotState::alive), id(++robotCounter) {}
 
-void Robot::setAlive(bool alive)
+void Robot::setState(RobotState state)
 {
-    this->alive = alive;
+    this->state = state;
 }
 
 void Robot::moveRobot(unsigned int column, unsigned int line)
@@ -25,7 +23,7 @@ void Robot::moveRobot(unsigned int column, unsigned int line)
     this->column = column;
 }
 
-bool Robot::isAlive() const { return alive; }
+bool Robot::isAlive() const { return state == RobotState::alive; }
 
 unsigned int Robot::getLine() const { return line; }
 

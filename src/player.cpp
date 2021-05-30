@@ -1,7 +1,5 @@
 // T01_G07
 
-#include <cstddef>
-
 #include "player.h"
 
 Player::Player(unsigned int column, unsigned int line)

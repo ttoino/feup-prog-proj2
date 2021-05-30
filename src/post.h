@@ -3,8 +3,6 @@
 #ifndef POST_H
 #define POST_H
 
-#include <cstddef>
-
 /**
  * This class represents a post (electrified, non-electrified or an exit)
  */

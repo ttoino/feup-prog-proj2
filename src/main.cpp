@@ -13,7 +13,7 @@
 #include "util.h"
 
 /**
- * This enum represents state the game is in.
+ * This enum represents the state the game is in.
  */
 enum class GameState
 {

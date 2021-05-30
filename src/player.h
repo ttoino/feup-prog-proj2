@@ -3,8 +3,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <cstddef>
-
 /**
  * This class represents the player
  */

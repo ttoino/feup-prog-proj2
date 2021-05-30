@@ -205,7 +205,7 @@ void Game::moveRobots()
         int i = electrifiedPostAt(newColumn, newLine);
         if (i >= 0)
         {
-            robot.setAlive(false);
+            robot.setState(RobotState::dead);
 
             auto electrified = maze->getElectrified();
             Post p = electrified.at(i);
@@ -215,10 +215,14 @@ void Game::moveRobots()
             continue;
         }
 
+        i = exitAt(newColumn, newLine);
+        if (i >= 0)
+            continue;
+
         i = nonElectrifiedPostAt(newColumn, newLine);
         if (i >= 0)
         {
-            robot.setAlive(false);
+            robot.setState(RobotState::stuck);
         }
 
         robot.moveRobot(newColumn, newLine);
@@ -230,8 +234,8 @@ void Game::moveRobots()
 
             if (robotRobotCollision(robot, other))
             {
-                robot.setAlive(false);
-                other.setAlive(false);
+                robot.setState(RobotState::stuck);
+                other.setState(RobotState::stuck);
             }
 
             if (playerRobotCollision(robot))
