@@ -120,8 +120,8 @@ bool Game::isPlayerAlive() const
 
 Result Game::movePlayer(int dx, int dy)
 {
-    unsigned int newCol = player->getColumn() + dx;
-    unsigned int newLine = player->getLine() + dy;
+    const unsigned int newCol = player->getColumn() + dx;
+    const unsigned int newLine = player->getLine() + dy;
 
     if (newCol >= maze->getNCols() || newLine >= maze->getNLines())
         return {OUT_OF_BOUNDS};
@@ -199,8 +199,8 @@ void Game::moveRobots()
         if (!robot.isAlive())
             continue;
 
-        unsigned int newColumn = robot.getColumn() + sign((long)player->getColumn() - robot.getColumn());
-        unsigned int newLine = robot.getLine() + sign((long)player->getLine() - robot.getLine());
+        const unsigned int newColumn = robot.getColumn() + sign((long)player->getColumn() - robot.getColumn());
+        const unsigned int newLine = robot.getLine() + sign((long)player->getLine() - robot.getLine());
 
         int i = electrifiedPostAt(newColumn, newLine);
         if (i >= 0)
@@ -256,7 +256,7 @@ bool Game::robotRobotCollision(const Robot &r1, const Robot &r2)
     return r1.getLine() == r2.getLine() && r1.getColumn() == r2.getColumn();
 }
 
-int Game::electrifiedPostAt(unsigned int column, unsigned int line) const
+int Game::electrifiedPostAt(const unsigned int column, const unsigned int line) const
 {
     auto electrified = maze->getElectrified();
     for (int i = 0; i < electrified.size(); i++)
@@ -270,7 +270,7 @@ int Game::electrifiedPostAt(unsigned int column, unsigned int line) const
     return -1;
 }
 
-int Game::nonElectrifiedPostAt(unsigned int column, unsigned int line) const
+int Game::nonElectrifiedPostAt(const unsigned int column, const unsigned int line) const
 {
     auto nonElectrified = maze->getNonElectrified();
     for (int i = 0; i < nonElectrified.size(); i++)
@@ -284,7 +284,7 @@ int Game::nonElectrifiedPostAt(unsigned int column, unsigned int line) const
     return -1;
 }
 
-int Game::exitAt(unsigned int column, unsigned int line) const
+int Game::exitAt(const unsigned int column, const unsigned int line) const
 {
     auto exits = maze->getExits();
     for (int i = 0; i < exits.size(); i++)
@@ -298,7 +298,7 @@ int Game::exitAt(unsigned int column, unsigned int line) const
     return -1;
 }
 
-int Game::deadRobotAt(unsigned int column, unsigned int line) const
+int Game::deadRobotAt(const unsigned int column, const unsigned int line) const
 {
     for (int i = 0; i < robots.size(); i++)
     {
@@ -311,7 +311,7 @@ int Game::deadRobotAt(unsigned int column, unsigned int line) const
     return -1;
 }
 
-int Game::aliveRobotAt(unsigned int column, unsigned int line) const
+int Game::aliveRobotAt(const unsigned int column, const unsigned int line) const
 {
     for (int i = 0; i < robots.size(); i++)
     {

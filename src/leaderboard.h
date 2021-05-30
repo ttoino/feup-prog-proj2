@@ -46,7 +46,7 @@ public:
      *
      * @param person The person with the name to search for
      * 
-     * @returns the leaderboard entry of the person with the same name on the leaderboard
+     * @returns a pointer to the leaderboard entry of the person with the same name on the leaderboard
      */
     LeaderboardEntry *searchSameName(const LeaderboardEntry &person);
 

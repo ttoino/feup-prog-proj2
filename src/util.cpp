@@ -66,7 +66,7 @@ bool getInput(std::string &input)
     return true;
 }
 
-size_t toIndex(size_t column, size_t line, size_t nCols)
+size_t toIndex(const size_t column, const size_t line, const size_t nCols)
 {
     return line * nCols + column;
 }
